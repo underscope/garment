@@ -4,17 +4,17 @@ import type { AWSError } from 'aws-sdk'
 import mime from 'mime-types'
 import S3 from 'aws-sdk/clients/s3'
 
-import type { ObjectStorage, StorageConfig } from '../../interfaces'
+import type { FileStorage, FileStorageConfig } from '../../interfaces'
 import type { GetObjectResponse } from '../../types'
 
 const noop = () => undefined
 const isNotFoundError = (err: AWSError) => ['NoSuchKey', 'NotFound'].includes(err.code)
 
-class Amazon implements ObjectStorage {
+class Amazon implements FileStorage {
   #bucket: string
   #client: S3
 
-  constructor(storage: StorageConfig) {
+  constructor(storage: FileStorageConfig) {
     this.#bucket = storage.bucket
     this.#client = new S3({
       accessKeyId: storage.aws.keyId,
