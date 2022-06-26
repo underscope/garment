@@ -12,7 +12,7 @@ const garment = new Garment({
     keyId: 'aws-key',
     secretKey: 'aws-secret',
     region: 'eu-central-1'
-  },
+  }
 });
 ```
 
