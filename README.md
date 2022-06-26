@@ -1,15 +1,30 @@
-# pkg-name
+# 👕 Garment
 
-[![NPM version](https://img.shields.io/npm/v/pkg-name?color=a1b858&label=)](https://www.npmjs.com/package/pkg-name)
+Utility for managing published Tailor content.
 
-## Sponsors
+Initialize garment by providing storage provider configuration.
 
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>
-  </a>
-</p>
+```js
+const garment = new Garment({
+  provider: 'aws',
+  bucket: 'my-bucket',
+  aws: {
+    keyId: 'aws-key',
+    secretKey: 'aws-secret',
+    region: 'eu-central-1'
+  },
+});
+```
 
-## License
+## API
 
-[MIT](./LICENSE) License © 2022 [Anthony Fu](https://github.com/antfu)
+### Fetching published resources
+
+#### `list()`
+Retrieves the list of published repositories
+
+#### `get(id: string)`
+Retrieves repository root file, containing the repository outline (structure)
+
+#### `getContainer(id: string, repositoryId: string)`
+Retrieves content container
