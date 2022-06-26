@@ -4,8 +4,9 @@ import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
 import initStorageAdapter from '../storage'
 
 interface GarmentConfig {
-  publishPath: string
-  snapshotPath: string
+  publishPath?: string
+  snapshotPath?: string
+  cachePath?: string
 }
 
 const CATALOG_FILENAME = 'index.json'
@@ -16,7 +17,13 @@ class Garment {
   #config: GarmentConfig
   #storage: FileStorage
 
-  constructor(storageConfig: FileStorageConfig, garmentConfig: GarmentConfig) {
+  constructor(
+    storageConfig: FileStorageConfig,
+    garmentConfig: GarmentConfig = {
+      publishPath: 'repository',
+      snapshotPath: 'snapshots',
+      cachePath: 'cache',
+    }) {
     this.#config = garmentConfig
     this.#storage = initStorageAdapter(storageConfig)
   }
