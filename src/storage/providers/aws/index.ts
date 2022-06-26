@@ -123,7 +123,7 @@ class Amazon implements FileStorage {
       .headObject({ Bucket: this.#bucket, Key: key })
       .promise()
       .then(Boolean)
-      .catch(err => (isNotFoundError(err) ? false : Promise.reject(err)))
+      .catch((err: AWSError) => (isNotFoundError(err) ? false : Promise.reject(err)))
   }
 
   public getSignedObjectUrl(key: string): Promise<string> {
