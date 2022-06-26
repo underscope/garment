@@ -47,12 +47,9 @@ class Amazon implements FileStorage {
       }))
   }
 
-  public getJSON(key: string): Promise<JSON | undefined> {
+  public getJSON(key: string): Promise<any> {
     return this.getObject(key)
-      .then(({ content }) => {
-        if (content)
-          return JSON.parse(content)
-      })
+      .then(({ content }) => JSON.parse(content))
   }
 
   public saveObject(key: string, data: Buffer): Promise<void> {

@@ -1,13 +1,8 @@
 import path from 'path'
-
-import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
 import initStorageAdapter from '../storage'
 
-interface GarmentConfig {
-  publishPath?: string
-  snapshotPath?: string
-  cachePath?: string
-}
+import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
+import type { CatalogItem, GarmentConfig } from './interfaces'
 
 const CATALOG_FILENAME = 'index.json'
 const REPOSITORY_ROOT_FILENAME = 'index.json'
@@ -28,7 +23,7 @@ class Garment {
     this.#storage = initStorageAdapter(storageConfig)
   }
 
-  list() {
+  list(): Promise<CatalogItem[]> {
     return this.#storage.getJSON(this.getCatalogPath())
   }
 
