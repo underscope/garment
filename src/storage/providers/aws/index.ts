@@ -1,11 +1,11 @@
 import path from 'path'
 
-import type { AWSError } from 'aws-sdk'
 import mime from 'mime-types'
 import S3 from 'aws-sdk/clients/s3'
 
-import type { FileStorage, FileStorageConfig } from '../../interfaces'
+import type { AWSError } from 'aws-sdk'
 import type { GetObjectResponse } from '../../types'
+import type { FileStorage, FileStorageConfig } from '../../interfaces'
 
 const noop = () => undefined
 const isNotFoundError = (err: AWSError) => ['NoSuchKey', 'NotFound'].includes(err.code)
@@ -26,6 +26,17 @@ class Amazon implements FileStorage {
     })
   }
 
+  public listObjects(key: string): Promise<string[]> {
+    return this.#client
+      .listObjectsV2({
+        Bucket: this.#bucket,
+        Prefix: key,
+        Delimiter: '/',
+      })
+      .promise()
+      .then(({ Contents: files = [] }) => files.map(it => it.Key) as string[])
+  }
+
   public getObject(key: string): Promise<GetObjectResponse<string>> {
     return this.#client
       .getObject({ Bucket: this.#bucket, Key: key })
@@ -34,6 +45,14 @@ class Amazon implements FileStorage {
         content: Body?.toString('utf8') || '',
         raw: Body as Buffer,
       }))
+  }
+
+  public getJSON(key: string): Promise<JSON | undefined> {
+    return this.getObject(key)
+      .then(({ content }) => {
+        if (content)
+          return JSON.parse(content)
+      })
   }
 
   public saveObject(key: string, data: Buffer): Promise<void> {
@@ -62,6 +81,17 @@ class Amazon implements FileStorage {
       .then(noop)
   }
 
+  public async copyDirectory(dirPath: string, newDirPath: string) {
+    const fileNames = await this.listObjects(dirPath)
+    return Promise
+      .all(fileNames.map((fileName: string) => {
+        const src = path.join(dirPath, fileName)
+        const dst = path.join(newDirPath, path.basename(fileName))
+        return this.copyObject(src, dst)
+      }))
+      .then(noop)
+  }
+
   public moveObject(key: string, newKey: string): Promise<void> {
     return this.copyObject(key, newKey)
       .then(() => this.deleteObject(key))
@@ -86,13 +116,6 @@ class Amazon implements FileStorage {
       })
       .promise()
       .then(noop)
-  }
-
-  public listObjects(key: string): Promise<string[]> {
-    return this.#client
-      .listObjectsV2({ Bucket: this.#bucket, Prefix: key })
-      .promise()
-      .then(({ Contents: files = [] }) => files.map(it => it.Key) as string[])
   }
 
   public doesObjectExist(key: string): Promise<boolean> {

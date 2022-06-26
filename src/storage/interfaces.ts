@@ -4,8 +4,10 @@ import type { GetObjectResponse } from './types'
 export interface FileStorage {
   listObjects(key: string): Promise<string[]>
   getObject(key: string): Promise<GetObjectResponse<string>>
+  getJSON(key: string): Promise<JSON | undefined>
   saveObject(key: string, data: Buffer): Promise<void>
   copyObject(key: string, newKey: string): Promise<void>
+  copyDirectory(path: string, newPath: string): Promise<void>
   moveObject(key: string, newKey: string): Promise<void>
   deleteObject(key: string): Promise<void>
   deleteObjects(keys: string[]): Promise<void>
