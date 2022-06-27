@@ -24,6 +24,7 @@ class Garment {
     }) {
     this.#config = garmentConfig
     this.#storage = initStorageAdapter(storageConfig)
+    Repository.storage = this
   }
 
   list(): Promise<CatalogItem[]> {

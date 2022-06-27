@@ -1,6 +1,8 @@
 import { Type } from 'class-transformer'
 
 export class Repository {
+  static storage: any
+
   id: number
   uid: string
   schema: string
@@ -11,6 +13,10 @@ export class Repository {
 
   @Type(() => Date)
   publishedAt: Date
+
+  getContainer(id: string) {
+    return Repository.storage.getContainer(id, this.id.toString())
+  }
 }
 
 export class Activity {
