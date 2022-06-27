@@ -1,8 +1,11 @@
 import path from 'path'
+import { plainToClass } from 'class-transformer'
 import initStorageAdapter from '../storage'
 
 import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
 import type { CatalogItem, GarmentConfig } from './interfaces'
+
+import { Repository } from './entities'
 
 const CATALOG_FILENAME = 'index.json'
 const REPOSITORY_ROOT_FILENAME = 'index.json'
@@ -27,10 +30,11 @@ class Garment {
     return this.#storage.getJSON(this.getCatalogPath())
   }
 
-  get(id: string, location = this.#config.publishPath) {
+  get(id: string, location = this.#config.publishPath): Promise<Repository> {
     const repositoryPath = this.getRepositoryPath(id, location)
     const key = this.path(repositoryPath, REPOSITORY_ROOT_FILENAME)
     return this.#storage.getJSON(key)
+      .then(repository => plainToClass(Repository, repository))
   }
 
   getContainer(id: string, repositoryId: string, location = this.#config.publishPath) {
