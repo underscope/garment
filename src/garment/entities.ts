@@ -1,7 +1,24 @@
 import { Type } from 'class-transformer'
 
+export class CatalogItem {
+  static api: any
+
+  id: number
+  uid: string
+  schema: string
+  name: string
+  description: string
+  meta: Object
+
+  @Type(() => Date)
+  publishedAt: string
+
+  @Type(() => Date)
+  detachedAt: string
+}
+
 export class Repository {
-  static storage: any
+  static api: any
 
   id: number
   uid: string
@@ -15,11 +32,13 @@ export class Repository {
   publishedAt: Date
 
   getContainer(id: string) {
-    return Repository.storage.getContainer(id, this.id.toString())
+    return Repository.api.getContainer(id, this.id.toString())
   }
 }
 
 export class Activity {
+  static api: any
+
   id: number
   uid: string
   type: string

@@ -1,19 +1,13 @@
-import path from 'path'
-import { plainToClass } from 'class-transformer'
-import initStorageAdapter from '../storage'
+import { plainToInstance } from 'class-transformer'
 
-import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
-import type { CatalogItem, GarmentConfig } from './interfaces'
+import API from '../api'
+import type { FileStorageConfig } from '../storage/interfaces'
+import type { GarmentConfig } from './interfaces'
 
-import { Repository } from './entities'
-
-const CATALOG_FILENAME = 'index.json'
-const REPOSITORY_ROOT_FILENAME = 'index.json'
-const CONTAINER_EXTENSION = '.container.json'
+import { Activity, CatalogItem, Repository } from './entities'
 
 class Garment {
-  #config: GarmentConfig
-  #storage: FileStorage
+  api: API
 
   constructor(
     storageConfig: FileStorageConfig,
@@ -22,47 +16,22 @@ class Garment {
       snapshotPath: 'snapshots',
       cachePath: 'cache',
     }) {
-    this.#config = garmentConfig
-    this.#storage = initStorageAdapter(storageConfig)
-    Repository.storage = this
+    this.api = new API(storageConfig, garmentConfig)
+    CatalogItem.api = Repository.api = Activity.api = this.api
   }
 
   list(): Promise<CatalogItem[]> {
-    return this.#storage.getJSON(this.getCatalogPath())
+    return this.api.list()
+      .then(items => plainToInstance(CatalogItem, items))
   }
 
-  get(id: string, location = this.#config.publishPath): Promise<Repository> {
-    const repositoryPath = this.getRepositoryPath(id, location)
-    const key = this.path(repositoryPath, REPOSITORY_ROOT_FILENAME)
-    return this.#storage.getJSON(key)
-      .then(repository => plainToClass(Repository, repository))
+  get(id: string): Promise<Repository> {
+    return this.api.get(id)
+      .then(repository => plainToInstance(Repository, repository))
   }
 
-  getContainer(id: string, repositoryId: string, location = this.#config.publishPath) {
-    return this.#storage.getJSON(this.getContainerPath(id, repositoryId, location))
-  }
-
-  clone(id: string, dstLocation: string, srcLocation: string) {
-    return this.#storage.copyDirectory(this.getRepositoryPath(id, srcLocation), dstLocation)
-  }
-
-  private path(...segments: string[]): string {
-    return path.join(...segments)
-  }
-
-  private getCatalogPath() {
-    return this.path(this.#config.publishPath, CATALOG_FILENAME)
-  }
-
-  private getRepositoryPath(id: string, location = this.#config.publishPath) {
-    return this.path(location, id)
-  }
-
-  private getContainerPath(
-    containerId: string,
-    repositoryId: string,
-    location = this.#config.publishPath) {
-    return this.path(location, repositoryId, `${containerId}${CONTAINER_EXTENSION}`)
+  getContainer(id: string, repositoryId: string) {
+    return this.api.getContainer(id, repositoryId)
   }
 }
 
