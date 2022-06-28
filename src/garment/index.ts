@@ -25,7 +25,8 @@ class Garment {
   }
 
   get env() { return this._env }
-  set env(val: GarmentEnv) { this._env = val }
+  private set env(val: GarmentEnv) { this._env = val }
+
   source = () => (this.env = GarmentEnv.Source) && this
   snapshot = () => (this.env = GarmentEnv.Snapshot) && this
   cache = () => (this.env = GarmentEnv.Cache) && this
