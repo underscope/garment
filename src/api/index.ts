@@ -23,7 +23,7 @@ class StorageAPI {
     return this.#storage.getJSON(this.getCatalogPath())
   }
 
-  get(id: string, location = this.#config.publishPath): Promise<any> {
+  get(id: string, location = this.#config.sourcePath): Promise<any> {
     const repositoryPath = this.getRepositoryPath(id, location)
     const key = this.path(repositoryPath, REPOSITORY_ROOT_FILENAME)
     return this.#storage.getJSON(key)
@@ -34,23 +34,23 @@ class StorageAPI {
       .copyDirectory(this.getRepositoryPath(id, srcLocation), dstLocation)
   }
 
-  getContainer(id: string, repositoryId: string, location = this.#config.publishPath) {
+  getContainer(id: string, repositoryId: string, location = this.#config.sourcePath) {
     return this.#storage
       .getJSON(this.getContainerPath(id, repositoryId, location))
   }
 
   private getCatalogPath() {
-    return this.path(this.#config.publishPath, CATALOG_FILENAME)
+    return this.path(this.#config.sourcePath, CATALOG_FILENAME)
   }
 
-  private getRepositoryPath(id: string, location = this.#config.publishPath) {
+  private getRepositoryPath(id: string, location = this.#config.sourcePath) {
     return this.path(location, id)
   }
 
   private getContainerPath(
     containerId: string,
     repositoryId: string,
-    location = this.#config.publishPath) {
+    location = this.#config.sourcePath) {
     return this.path(location, repositoryId, `${containerId}${CONTAINER_EXTENSION}`)
   }
 

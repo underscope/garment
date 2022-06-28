@@ -1,5 +1,5 @@
 export interface GarmentConfig {
-  publishPath: string
+  sourcePath: string
   snapshotPath: string
   cachePath: string
 }

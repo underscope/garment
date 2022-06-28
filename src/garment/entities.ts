@@ -1,4 +1,5 @@
 import { Type } from 'class-transformer'
+import type { GarmentEnv } from './enums'
 
 export class CatalogItem {
   static api: any
@@ -19,6 +20,7 @@ export class CatalogItem {
 
 export class Repository {
   static api: any
+  env: GarmentEnv
 
   id: number
   uid: string
