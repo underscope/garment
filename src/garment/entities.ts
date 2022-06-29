@@ -1,3 +1,5 @@
+import bytes from 'bytes'
+import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 import { GarmentEnv } from './enums'
 
@@ -32,6 +34,10 @@ export class Repository {
 
   @Type(() => Date)
   publishedAt: Date
+
+  get size(): string {
+    return bytes(sizeof(this))
+  }
 
   get path(): string {
     return Repository.api.getRepositoryPath(this.id.toString(), this.envPath)
