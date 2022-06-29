@@ -31,7 +31,6 @@ class Amazon implements FileStorage {
       .listObjectsV2({
         Bucket: this.#bucket,
         Prefix: key,
-        Delimiter: '/',
       })
       .promise()
       .then(({ Contents: files = [] }) => files.map(it => it.Key) as string[])
@@ -82,9 +81,8 @@ class Amazon implements FileStorage {
     const fileNames = await this.listObjects(dirPath)
     return Promise
       .all(fileNames.map((fileName: string) => {
-        const src = path.join(dirPath, fileName)
         const dst = path.join(newDirPath, path.basename(fileName))
-        return this.copyObject(src, dst)
+        return this.copyObject(fileName, dst)
       }))
       .then(noop)
   }
