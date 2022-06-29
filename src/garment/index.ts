@@ -47,7 +47,7 @@ class Garment {
   }
 
   private attachGarmentEnv(item: Repository) {
-    item.env = this.env
+    item.envPath = this.config[this.env]
     return item
   }
 }

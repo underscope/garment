@@ -3,6 +3,7 @@ import initStorageAdapter from '../storage'
 
 import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
 import type { GarmentConfig } from '../garment/interfaces'
+import type { GarmentEnv } from '../garment/enums'
 
 const CATALOG_FILENAME = 'index.json'
 const REPOSITORY_ROOT_FILENAME = 'index.json'
@@ -29,9 +30,13 @@ class StorageAPI {
     return this.#storage.getJSON(key)
   }
 
-  clone(id: string, srcLocation: string, dstLocation: string) {
-    return this.#storage
-      .copyDirectory(this.getRepositoryPath(id, srcLocation), dstLocation)
+  clone(src: string, dst: string) {
+    return this.#storage.copyDirectory(src, dst)
+  }
+
+  cloneToEnv(src: string, env: GarmentEnv, directory: '') {
+    const dst = this.path(this.#config[env], directory)
+    return this.#storage.copyDirectory(src, dst)
   }
 
   getContainer(id: string, repositoryId: string, location = this.#config.sourcePath) {
@@ -44,7 +49,7 @@ class StorageAPI {
   }
 
   private getRepositoryPath(id: string, location = this.#config.sourcePath) {
-    return this.path(location, id)
+    return this.path(location, id, '/')
   }
 
   private getContainerPath(

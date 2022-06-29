@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import type { GarmentEnv } from './enums'
+import { GarmentEnv } from './enums'
 
 export class CatalogItem {
   static api: any
@@ -20,7 +20,7 @@ export class CatalogItem {
 
 export class Repository {
   static api: any
-  env: GarmentEnv
+  envPath: string
 
   id: number
   uid: string
@@ -32,6 +32,19 @@ export class Repository {
 
   @Type(() => Date)
   publishedAt: Date
+
+  get path(): string {
+    return Repository.api.getRepositoryPath(this.id.toString(), this.envPath)
+  }
+
+  clone(dstPath: string) {
+    return Repository.api.clone(this.path, dstPath)
+  }
+
+  snapshot(version = new Date().getTime().toString()) {
+    const directory = `${this.id}/${version}`
+    return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, directory)
+  }
 
   getContainer(id: string) {
     return Repository.api.getContainer(id, this.id.toString())
