@@ -14,9 +14,9 @@ class Garment {
   constructor(
     storageConfig: FileStorageConfig,
     garmentConfig: GarmentConfig = {
-      sourcePath: 'repository',
-      snapshotPath: 'snapshots',
-      cachePath: 'cache',
+      [GarmentEnv.Source]: 'repository',
+      [GarmentEnv.Snapshot]: 'snapshots',
+      [GarmentEnv.Cache]: 'cache',
     }) {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)

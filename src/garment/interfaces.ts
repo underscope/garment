@@ -1,5 +1,7 @@
+import type { GarmentEnv } from './enums'
+
 export interface GarmentConfig {
-  sourcePath: string
-  snapshotPath: string
-  cachePath: string
+  [GarmentEnv.Source]: string
+  [GarmentEnv.Snapshot]: string
+  [GarmentEnv.Cache]: string
 }
