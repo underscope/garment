@@ -4,7 +4,6 @@ import { Type } from 'class-transformer'
 
 export class Activity {
   static api: any
-
   isLoaded = false
 
   id: number
