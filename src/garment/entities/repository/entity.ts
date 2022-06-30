@@ -2,8 +2,8 @@ import bytes from 'bytes'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
-import { GarmentEnv } from '../enums'
-import { Activity } from './Activity'
+import { GarmentEnv } from '../../enums'
+import { Activity } from '../Activity'
 
 export class Repository {
   static api: any

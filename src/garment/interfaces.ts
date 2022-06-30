@@ -5,3 +5,8 @@ export interface GarmentConfig {
   [GarmentEnv.Snapshot]: string
   [GarmentEnv.Cache]: string
 }
+
+export interface EntityProcessorContext {
+  env: GarmentEnv
+  config: GarmentConfig
+}
