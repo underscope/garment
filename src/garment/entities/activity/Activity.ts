@@ -2,7 +2,7 @@ import bytes from 'bytes'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
-import { ContentContainer } from './content-container'
+import { ContentContainer } from '../content-container'
 
 export class Activity {
   static api: any
