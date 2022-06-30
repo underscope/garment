@@ -33,12 +33,15 @@ export class Activity {
     return bytes(sizeof(this))
   }
 
+  getContainer(id: string) {
+    return Activity.api.getContainer(id, this.repositoryId.toString())
+  }
+
   async load(): Promise<Activity> {
-    const fetchContainers = this.contentContainers.map((it) => {
-      return Activity.api.getContainer(it.fileKey, this.repositoryId.toString())
-    })
+    const { contentContainers } = this
+    const fetch = contentContainers.map(it => this.getContainer(it.id.toString()))
     await Promise
-      .all(fetchContainers)
+      .all(fetch)
       .then((containers) => { this.contentContainers = containers })
     this.isLoaded = true
     return this

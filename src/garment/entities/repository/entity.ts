@@ -7,7 +7,6 @@ import { Activity } from '../Activity'
 
 export class Repository {
   static api: any
-
   envPath: string
   isLoaded = false
 
@@ -37,7 +36,7 @@ export class Repository {
   }
 
   async load() {
-    const withContainers = this.structure.filter(it => it.contentContainers.length)
+    const withContainers = this.structure.filter(it => it.contentContainers?.length)
     await Promise.all(withContainers.map(activity => activity.load()))
     this.isLoaded = true
   }
