@@ -1,3 +1,3 @@
-import { ContentContainer } from './entity'
+import { ContentContainer } from './ContentContainer'
 
 export { ContentContainer }

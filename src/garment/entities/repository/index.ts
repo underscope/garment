@@ -1,5 +1,5 @@
 import literalProcessor from './processor'
-import { Repository } from './entity'
+import { Repository } from './Repository'
 
 export {
   Repository,
