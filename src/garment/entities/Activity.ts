@@ -2,6 +2,8 @@ import bytes from 'bytes'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
+import { ContentContainer } from './content-container'
+
 export class Activity {
   static api: any
   isLoaded = false
@@ -13,7 +15,9 @@ export class Activity {
   position: number
   relationships: Object
   meta: Object
-  contentContainers: any[]
+
+  @Type(() => ContentContainer)
+  contentContainers: ContentContainer[]
 
   @Type(() => Date)
   createdAt: Date
