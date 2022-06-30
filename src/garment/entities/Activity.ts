@@ -33,10 +33,6 @@ export class Activity {
     return bytes(sizeof(this))
   }
 
-  getContainer(id: string) {
-    return Activity.api.getContainer(id, this.repositoryId.toString())
-  }
-
   async load(): Promise<Activity> {
     const { contentContainers } = this
     const fetch = contentContainers.map(it => this.getContainer(it.id.toString()))
@@ -45,5 +41,9 @@ export class Activity {
       .then((containers) => { this.contentContainers = containers })
     this.isLoaded = true
     return this
+  }
+
+  getContainer(id: string) {
+    return Activity.api.getContainer(id, this.repositoryId.toString())
   }
 }
