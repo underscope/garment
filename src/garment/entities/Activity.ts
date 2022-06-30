@@ -4,6 +4,7 @@ import { Type } from 'class-transformer'
 
 export class Activity {
   static api: any
+
   isLoaded = false
 
   id: number
@@ -24,20 +25,21 @@ export class Activity {
   @Type(() => Date)
   publishedAt: Date
 
+  get fileKey() {
+    return this.id.toString()
+  }
+
   get size(): string {
     return bytes(sizeof(this))
   }
 
   async load(): Promise<Activity> {
     const fetchContainers = this.contentContainers.map((it) => {
-      return Activity.api.getContainer(it.id.toString(), this.repositoryId.toString())
+      return Activity.api.getContainer(it.fileKey, this.repositoryId.toString())
     })
     await Promise
       .all(fetchContainers)
-      .then((containers) => {
-        this.isLoaded = true
-        this.contentContainers = containers
-      })
+      .then((containers) => { this.contentContainers = containers })
     this.isLoaded = true
     return this
   }
