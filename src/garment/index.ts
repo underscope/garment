@@ -38,7 +38,7 @@ class Garment {
 
   get(id: string): Promise<Repository> {
     return this.api.get(id)
-      .then(item => this.attachGarmentEnv(item))
+      .then(item => this.processRepository(item))
       .then(repository => plainToInstance(Repository, repository))
   }
 
@@ -46,8 +46,19 @@ class Garment {
     return this.api.getContainer(id, repositoryId)
   }
 
+  private processRepository(repository: Repository) {
+    this.attachGarmentEnv(repository)
+    this.attachRepositoryIdToActivity(repository)
+    return repository
+  }
+
   private attachGarmentEnv(item: Repository) {
     item.envPath = this.config[this.env]
+    return item
+  }
+
+  private attachRepositoryIdToActivity(item: Repository) {
+    item.structure.forEach((activity) => { activity.repositoryId = item.id })
     return item
   }
 }

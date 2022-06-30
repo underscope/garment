@@ -23,6 +23,7 @@ export class CatalogItem {
 export class Repository {
   static api: any
   envPath: string
+  isLoaded = false
 
   id: number
   uid: string
@@ -30,6 +31,8 @@ export class Repository {
   name: string
   description: string
   version: string
+
+  @Type(() => Activity)
   structure: Activity[]
 
   @Type(() => Date)
@@ -41,6 +44,12 @@ export class Repository {
 
   get path(): string {
     return Repository.api.getRepositoryPath(this.id.toString(), this.envPath)
+  }
+
+  async load() {
+    const withContainers = this.structure.filter(it => it.contentContainers.length)
+    await Promise.all(withContainers.map(activity => activity.load()))
+    this.isLoaded = true
   }
 
   clone(dstPath: string) {
@@ -59,14 +68,16 @@ export class Repository {
 
 export class Activity {
   static api: any
+  isLoaded = false
 
   id: number
   uid: string
+  repositoryId: number
   type: string
   position: number
-  meta: Object
-  contentContainers: Object[]
   relationships: Object
+  meta: Object
+  contentContainers: any[]
 
   @Type(() => Date)
   createdAt: Date
@@ -76,4 +87,17 @@ export class Activity {
 
   @Type(() => Date)
   publishedAt: Date
+
+  async load(): Promise<any> {
+    const fetchContainers = this.contentContainers.map((it) => {
+      return Activity.api.getContainer(it.id.toString(), this.repositoryId.toString())
+    })
+    await Promise
+      .all(fetchContainers)
+      .then((containers) => {
+        this.isLoaded = true
+        this.contentContainers = containers
+      })
+    this.isLoaded = true
+  }
 }
