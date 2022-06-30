@@ -1,24 +1,9 @@
 import bytes from 'bytes'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
-import { GarmentEnv } from './enums'
 
-export class CatalogItem {
-  static api: any
-
-  id: number
-  uid: string
-  schema: string
-  name: string
-  description: string
-  meta: Object
-
-  @Type(() => Date)
-  publishedAt: string
-
-  @Type(() => Date)
-  detachedAt: string
-}
+import { GarmentEnv } from '../enums'
+import { Activity } from './Activity'
 
 export class Repository {
   static api: any
@@ -63,41 +48,5 @@ export class Repository {
 
   getContainer(id: string) {
     return Repository.api.getContainer(id, this.id.toString())
-  }
-}
-
-export class Activity {
-  static api: any
-  isLoaded = false
-
-  id: number
-  uid: string
-  repositoryId: number
-  type: string
-  position: number
-  relationships: Object
-  meta: Object
-  contentContainers: any[]
-
-  @Type(() => Date)
-  createdAt: Date
-
-  @Type(() => Date)
-  updatedAt: Date
-
-  @Type(() => Date)
-  publishedAt: Date
-
-  async load(): Promise<any> {
-    const fetchContainers = this.contentContainers.map((it) => {
-      return Activity.api.getContainer(it.id.toString(), this.repositoryId.toString())
-    })
-    await Promise
-      .all(fetchContainers)
-      .then((containers) => {
-        this.isLoaded = true
-        this.contentContainers = containers
-      })
-    this.isLoaded = true
   }
 }
