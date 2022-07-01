@@ -121,11 +121,11 @@ class Amazon implements FileStorage {
       .catch((err: AWSError) => (isNotFoundError(err) ? false : Promise.reject(err)))
   }
 
-  public getSignedObjectUrl(key: string): Promise<string> {
+  public getSignedObjectUrl(key: string, secondsAvailable = 3600): Promise<string> {
     return this.#client.getSignedUrlPromise('getObject', {
       Bucket: this.#bucket,
       Key: key,
-      Expires: 3600,
+      Expires: secondsAvailable,
     })
   }
 

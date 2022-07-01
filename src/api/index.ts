@@ -30,6 +30,10 @@ class StorageAPI {
     return this.#storage.getJSON(key)
   }
 
+  getSignedUrl(key: string, secondsAvailable: number) {
+    return this.#storage.getSignedObjectUrl(key, secondsAvailable)
+  }
+
   clone(src: string, dst: string) {
     return this.#storage.copyDirectory(src, dst)
   }

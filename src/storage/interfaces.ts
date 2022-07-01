@@ -12,7 +12,7 @@ export interface FileStorage {
   deleteObject(key: string): Promise<void>
   deleteObjects(keys: string[]): Promise<void>
   doesObjectExist(key: string): Promise<boolean>
-  getSignedObjectUrl(key: string): Promise<string>
+  getSignedObjectUrl(key: string, secondsAvailable: number): Promise<string>
 }
 
 export interface FileStorageConfig {
