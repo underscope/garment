@@ -30,4 +30,8 @@ export class ContentContainer {
   get size(): string {
     return bytes(sizeof(this))
   }
+
+  makePublic(secondsAvailable?: number) {
+    return Promise.all(this.elements.map(it => it.makePublic(secondsAvailable)))
+  }
 }
