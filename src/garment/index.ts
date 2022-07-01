@@ -5,11 +5,18 @@ import type { FileStorageConfig } from '../storage/interfaces'
 import type { GarmentConfig } from './interfaces'
 import { GarmentEnv } from './enums'
 import { literalProcessor } from './entities/repository'
-import { Activity, CatalogItem, Repository } from './entities'
+
+import {
+  Activity,
+  CatalogItem,
+  ContentContainer,
+  ContentElement,
+  Repository,
+} from './entities'
 
 class Garment {
-  private config: GarmentConfig
   private _env: GarmentEnv
+  private config: GarmentConfig
   api: API
 
   constructor(
@@ -22,7 +29,13 @@ class Garment {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)
     this._env = GarmentEnv.Source
-    CatalogItem.api = Repository.api = Activity.api = this.api
+
+    CatalogItem.api
+      = Repository.api
+      = Activity.api
+      = ContentElement.api
+      = ContentContainer.api
+      = this.api
   }
 
   get env() { return this._env }
