@@ -1,9 +1,9 @@
 import bytes from 'bytes'
 import sizeof from 'object-sizeof'
-import { Type } from 'class-transformer'
+import { Type, plainToClass } from 'class-transformer'
 
 import { GarmentEnv } from '../../enums'
-import { Activity } from '../activity'
+import { Activity, ContentContainer } from '../'
 
 export class Repository {
   static api: any
@@ -50,7 +50,8 @@ export class Repository {
     return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, directory)
   }
 
-  getContainer(id: string) {
-    return Repository.api.getContainer(id, this.fileKey)
+  async getContainer(id: string): Promise<ContentContainer> {
+    const data = await Repository.api.getContainer(id, this.fileKey)
+    return plainToClass(ContentContainer, data)
   }
 }
