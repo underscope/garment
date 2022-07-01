@@ -1,6 +1,6 @@
 import bytes from 'bytes'
 import sizeof from 'object-sizeof'
-import { Type } from 'class-transformer'
+import { Type, plainToClass } from 'class-transformer'
 
 import { ContentContainer } from '../content-container'
 
@@ -46,7 +46,8 @@ export class Activity {
     return this
   }
 
-  getContainer(id: string) {
-    return Activity.api.getContainer(id, this.repositoryId.toString())
+  async getContainer(id: string): Promise<ContentContainer> {
+    const data = await Activity.api.getContainer(id, this.repositoryId.toString())
+    return plainToClass(ContentContainer, data)
   }
 }
