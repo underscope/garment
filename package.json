@@ -49,6 +49,7 @@
     "@antfu/ni": "^0.16.2",
     "@antfu/utils": "^0.5.2",
     "@types/bytes": "^3.1.1",
+    "@types/lodash": "^4.14.182",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^18.0.0",
     "bumpp": "^8.2.1",
@@ -65,6 +66,7 @@
     "aws-sdk": "^2.1162.0",
     "bytes": "^3.1.2",
     "class-transformer": "^0.5.1",
+    "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
     "object-sizeof": "^1.6.3",
     "reflect-metadata": "^0.1.13"
