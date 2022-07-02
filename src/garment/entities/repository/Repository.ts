@@ -35,10 +35,18 @@ export class Repository {
     return bytes(sizeof(this))
   }
 
+  get activitiesWithContainers(): Activity[] {
+    return this.structure.filter(it => it.contentContainers?.length)
+  }
+
   async load() {
-    const withContainers = this.structure.filter(it => it.contentContainers?.length)
-    await Promise.all(withContainers.map(activity => activity.load()))
+    await Promise.all(this.activitiesWithContainers.map(it => it.load()))
     this.isLoaded = true
+    return this
+  }
+
+  makePublic() {
+    return Promise.all(this.activitiesWithContainers.map(it => it.makePublic()))
   }
 
   clone(dstPath: string) {
