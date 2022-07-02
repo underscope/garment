@@ -46,6 +46,10 @@ export class Activity {
     return this
   }
 
+  makePublic() {
+    return Promise.all(this.contentContainers.map(it => it.makePublic()))
+  }
+
   async getContainer(id: string): Promise<ContentContainer> {
     const data = await Activity.api.getContainer(id, this.repositoryId.toString())
     return plainToClass(ContentContainer, data)
