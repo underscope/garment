@@ -23,7 +23,7 @@ export class Repository {
   @Type(() => Date)
   publishedAt: Date
 
-  get fileKey() {
+  get fileKey(): string {
     return this.id.toString()
   }
 
@@ -39,14 +39,15 @@ export class Repository {
     return this.structure.filter(it => it.contentContainers?.length)
   }
 
-  async load() {
+  async load(): Promise<Repository> {
     await Promise.all(this.activitiesWithContainers.map(it => it.load()))
     this.isLoaded = true
     return this
   }
 
-  makePublic() {
-    return Promise.all(this.activitiesWithContainers.map(it => it.makePublic()))
+  async makePublic(): Promise<Repository> {
+    await Promise.all(this.activitiesWithContainers.map(it => it.makePublic()))
+    return this
   }
 
   clone(dstPath: string) {
