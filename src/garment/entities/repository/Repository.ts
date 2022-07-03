@@ -1,12 +1,14 @@
 import bytes from 'bytes'
+import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
-import { GarmentEnv } from '../../enums'
 import { Activity, ContentContainer } from '../'
+import { GarmentEnv } from '../../enums'
 
 export class Repository {
   static api: any
+  static fileKeyProp: 'id'
 
   envPath: string
   isLoaded = false
@@ -26,7 +28,8 @@ export class Repository {
   publishedAt: Date
 
   get fileKey(): string {
-    return this.id.toString()
+    const key = this[Repository.fileKeyProp]
+    return isString(key) ? key : String(key)
   }
 
   get path(): string {
