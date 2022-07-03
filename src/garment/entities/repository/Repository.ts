@@ -56,7 +56,7 @@ export class Repository {
     return Repository.api.clone(this.path, dstPath)
   }
 
-  snapshot(version = new Date().getTime().toString()) {
+  snapshot(version = this.version) {
     const directory = `${this.fileKey}/${version}`
     return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, directory)
   }
