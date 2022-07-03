@@ -8,7 +8,7 @@ import { GarmentEnv } from '../../enums'
 
 export class Repository {
   static api: any
-  static fileKeyProp = 'id'
+  static fileKeyProp: 'id' | 'uid' = 'id'
 
   envPath: string
   isLoaded = false
