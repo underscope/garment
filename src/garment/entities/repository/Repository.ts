@@ -7,15 +7,17 @@ import { Activity, ContentContainer } from '../'
 
 export class Repository {
   static api: any
+
   envPath: string
   isLoaded = false
 
   id: number
   uid: string
   schema: string
+  version: string
   name: string
   description: string
-  version: string
+  meta: { [key: string]: any }
 
   @Type(() => Activity)
   structure: Activity[]
