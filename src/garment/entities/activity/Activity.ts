@@ -14,7 +14,7 @@ export class Activity {
   type: string
   position: number
   relationships: Object
-  meta: Object
+  meta: { [key: string]: any }
 
   @Type(() => ContentContainer)
   contentContainers: ContentContainer[]
