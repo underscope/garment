@@ -1,4 +1,5 @@
 import bytes from 'bytes'
+import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
@@ -6,6 +7,8 @@ import { ContentContainer } from '../content-container'
 
 export class Activity {
   static api: any
+  static fileKeyProp: 'id' | 'uid' = 'id'
+
   isLoaded = false
 
   id: number
@@ -28,8 +31,9 @@ export class Activity {
   @Type(() => Date)
   publishedAt: Date
 
-  get fileKey() {
-    return this.id.toString()
+  get fileKey(): string {
+    const key = this[Activity.fileKeyProp]
+    return isString(key) ? key : String(key)
   }
 
   get size(): string {
