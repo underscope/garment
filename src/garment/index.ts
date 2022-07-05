@@ -24,7 +24,6 @@ class Garment {
     garmentConfig: GarmentConfig = {
       [GarmentEnv.Source]: 'repository',
       [GarmentEnv.Snapshot]: 'snapshots',
-      [GarmentEnv.Cache]: 'cache',
     }) {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)
