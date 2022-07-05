@@ -43,12 +43,14 @@ class Garment {
   source = () => ({
     list: () => this.list,
     get: (id: string) => this.get(id, GarmentEnv.Source),
-    getContainer: (id: string) => this.getContainer(id, GarmentEnv.Source),
+    getContainer: (id: string, repositoryId: string) =>
+      this.getContainer(id, repositoryId, GarmentEnv.Source),
   })
 
   snapshot = () => ({
     get: (id: string) => this.get(id, GarmentEnv.Snapshot),
-    getContainer: (id: string) => this.getContainer(id, GarmentEnv.Snapshot),
+    getContainer: (id: string, repositoryId: string) =>
+      this.getContainer(id, repositoryId, GarmentEnv.Snapshot),
   })
 
   private list(): Promise<CatalogEntry[]> {
@@ -63,8 +65,8 @@ class Garment {
       .then(repository => plainToInstance(Repository, repository))
   }
 
-  private getContainer(id: string, repositoryId: string) {
-    const location = this.config[this.env]
+  private getContainer(id: string, repositoryId: string, env: GarmentEnv) {
+    const location = this.config[env]
     return this.api.getContainer(id, repositoryId, location)
   }
 }
