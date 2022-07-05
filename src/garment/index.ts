@@ -59,8 +59,8 @@ class Garment {
   }
 
   private get(id: string, env: GarmentEnv): Promise<Repository> {
-    const directory = this.config[env]
-    return this.api.get(id, directory)
+    const location = this.config[env]
+    return this.api.get(id, location)
       .then(item => literalProcessor(item, { env, config: this.config }))
       .then(repository => plainToInstance(Repository, repository))
   }
