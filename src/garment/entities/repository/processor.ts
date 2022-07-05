@@ -1,9 +1,11 @@
 import type { EntityProcessorContext } from '../../interfaces'
 import type { Repository } from '.'
 
-function attachEnvironmentPath(item: Repository, context: EntityProcessorContext) {
-  item.envPath = context.config[context.env]
-  return item
+function attachEnvironmentPath(
+  repository: Repository,
+  context: EntityProcessorContext) {
+  repository.envPath = context.config[context.env]
+  return repository
 }
 
 function attachRepositoryIdToActivity(repository: Repository) {
