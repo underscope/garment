@@ -8,7 +8,7 @@ export class CatalogEntry {
   schema: string
   name: string
   description: string
-  meta: Object
+  meta: { [key: string]: any }
 
   @Type(() => Date)
   publishedAt: string
