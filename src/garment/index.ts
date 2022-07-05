@@ -48,8 +48,8 @@ class Garment {
       .then(items => plainToInstance(CatalogEntry, items))
   }
 
-  get(id: string): Promise<Repository> {
-    return this.api.get(id)
+  get(id: string, location = this.config[this.env]): Promise<Repository> {
+    return this.api.get(id, location)
       .then(item => literalProcessor(item, { env: this.env, config: this.config }))
       .then(repository => plainToInstance(Repository, repository))
   }
