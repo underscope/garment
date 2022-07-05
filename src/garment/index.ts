@@ -8,7 +8,7 @@ import { literalProcessor } from './entities/repository'
 
 import {
   Activity,
-  CatalogItem,
+  CatalogEntry,
   ContentContainer,
   ContentElement,
   Repository,
@@ -29,7 +29,7 @@ class Garment {
     this.api = new API(storageConfig, garmentConfig)
     this._env = GarmentEnv.Source
 
-    CatalogItem.api
+    CatalogEntry.api
       = Repository.api
       = Activity.api
       = ContentElement.api
@@ -44,9 +44,9 @@ class Garment {
   snapshot = () => (this.env = GarmentEnv.Snapshot) && this
   cache = () => (this.env = GarmentEnv.Cache) && this
 
-  list(): Promise<CatalogItem[]> {
+  list(): Promise<CatalogEntry[]> {
     return this.api.list()
-      .then(items => plainToInstance(CatalogItem, items))
+      .then(items => plainToInstance(CatalogEntry, items))
   }
 
   get(id: string): Promise<Repository> {

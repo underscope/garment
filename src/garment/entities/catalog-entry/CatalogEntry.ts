@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer'
 
-export class CatalogItem {
+export class CatalogEntry {
   static api: any
 
   id: number
