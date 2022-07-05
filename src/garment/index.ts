@@ -23,6 +23,7 @@ class Garment {
     garmentConfig: GarmentConfig = {
       [GarmentEnv.Source]: 'repository',
       [GarmentEnv.Snapshot]: 'snapshots',
+      fileKeyProp: 'id',
     }) {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)
@@ -33,6 +34,10 @@ class Garment {
       = ContentElement.api
       = ContentContainer.api
       = this.api
+
+    Repository.fileKeyProp
+      = ContentContainer.fileKeyProp
+      = garmentConfig.fileKeyProp
   }
 
   source = () => ({

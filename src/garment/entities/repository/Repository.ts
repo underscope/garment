@@ -3,12 +3,14 @@ import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
+import type { FileKey } from '../../interfaces'
+
 import { Activity, ContentContainer } from '../'
 import { GarmentEnv } from '../../enums'
 
 export class Repository {
   static api: any
-  static fileKeyProp: 'id' | 'uid' = 'id'
+  static fileKeyProp: FileKey = 'id'
 
   envPath: string
   isLoaded = false

@@ -3,11 +3,13 @@ import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
+import type { FileKey } from '../../interfaces'
+
 import { ContentElement } from '../content-element'
 
 export class ContentContainer {
   static api: any
-  static fileKeyProp: 'id' | 'uid' = 'id'
+  static fileKeyProp: FileKey = 'id'
 
   isLoaded = false
 
