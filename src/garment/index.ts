@@ -15,7 +15,6 @@ import {
 } from './entities'
 
 class Garment {
-  private _env: GarmentEnv
   private config: GarmentConfig
   api: API
 
@@ -27,7 +26,6 @@ class Garment {
     }) {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)
-    this._env = GarmentEnv.Source
 
     CatalogEntry.api
       = Repository.api
@@ -36,9 +34,6 @@ class Garment {
       = ContentContainer.api
       = this.api
   }
-
-  get env() { return this._env }
-  private set env(val: GarmentEnv) { this._env = val }
 
   source = () => ({
     list: () => this.list,
