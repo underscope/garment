@@ -42,7 +42,6 @@ class Garment {
 
   source = () => (this.env = GarmentEnv.Source) && this
   snapshot = () => (this.env = GarmentEnv.Snapshot) && this
-  cache = () => (this.env = GarmentEnv.Cache) && this
 
   list(): Promise<CatalogEntry[]> {
     return this.api.list()
