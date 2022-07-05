@@ -40,22 +40,32 @@ class Garment {
   get env() { return this._env }
   private set env(val: GarmentEnv) { this._env = val }
 
-  source = () => (this.env = GarmentEnv.Source) && this
-  snapshot = () => (this.env = GarmentEnv.Snapshot) && this
+  source = () => ({
+    list: () => this.list,
+    get: (id: string) => this.get(id, GarmentEnv.Source),
+    getContainer: (id: string) => this.getContainer(id, GarmentEnv.Source),
+  })
 
-  list(): Promise<CatalogEntry[]> {
+  snapshot = () => ({
+    get: (id: string) => this.get(id, GarmentEnv.Snapshot),
+    getContainer: (id: string) => this.getContainer(id, GarmentEnv.Snapshot),
+  })
+
+  private list(): Promise<CatalogEntry[]> {
     return this.api.list()
       .then(items => plainToInstance(CatalogEntry, items))
   }
 
-  get(id: string, location = this.config[this.env]): Promise<Repository> {
-    return this.api.get(id, location)
-      .then(item => literalProcessor(item, { env: this.env, config: this.config }))
+  private get(id: string, env: GarmentEnv): Promise<Repository> {
+    const directory = this.config[env]
+    return this.api.get(id, directory)
+      .then(item => literalProcessor(item, { env, config: this.config }))
       .then(repository => plainToInstance(Repository, repository))
   }
 
-  getContainer(id: string, repositoryId: string) {
-    return this.api.getContainer(id, repositoryId)
+  private getContainer(id: string, repositoryId: string) {
+    const location = this.config[this.env]
+    return this.api.getContainer(id, repositoryId, location)
   }
 }
 
