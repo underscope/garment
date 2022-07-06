@@ -30,17 +30,17 @@ export class Repository {
   @Type(() => Date)
   publishedAt: Date
 
-  get fileKey(): string {
+  get sourceKey(): string {
     const key = this[Repository.fileKeyProp]
     return isString(key) ? key : String(key)
   }
 
   get snapshotKey(): string {
-    return Repository.getSnapshotKey(this.fileKey, this.version)
+    return Repository.getSnapshotKey(this.sourceKey, this.version)
   }
 
   get path(): string {
-    return Repository.api.getRepositoryPath(this.fileKey, this.envPath)
+    return Repository.api.getRepositoryPath(this.sourceKey, this.envPath)
   }
 
   get size(): string {
@@ -71,7 +71,7 @@ export class Repository {
   }
 
   async getContainer(id: string): Promise<ContentContainer> {
-    const data = await Repository.api.getContainer(id, this.fileKey)
+    const data = await Repository.api.getContainer(id, this.sourceKey)
     return plainToClass(ContentContainer, data)
   }
 }

@@ -28,7 +28,7 @@ export class ContentContainer {
   @Type(() => Date)
   updatedAt: Date
 
-  get fileKey(): string {
+  get sourceKey(): string {
     const key = this[ContentContainer.fileKeyProp]
     return isString(key) ? key : String(key)
   }
