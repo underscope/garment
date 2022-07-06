@@ -11,6 +11,7 @@ import { GarmentEnv } from '../../enums'
 export class Repository {
   static api: any
   static fileKeyProp: FileKey = 'id'
+  static getSnapshotKey = (id: number | string, version: string) => `${id}/${version}`
 
   envPath: string
   isLoaded = false
@@ -32,6 +33,10 @@ export class Repository {
   get fileKey(): string {
     const key = this[Repository.fileKeyProp]
     return isString(key) ? key : String(key)
+  }
+
+  get snapshotKey(): string {
+    return Repository.getSnapshotKey(this.fileKey, this.version)
   }
 
   get path(): string {
@@ -61,9 +66,8 @@ export class Repository {
     return Repository.api.clone(this.path, dstPath)
   }
 
-  snapshot(version = this.version) {
-    const directory = `${this.fileKey}/${version}`
-    return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, directory)
+  snapshot() {
+    return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, this.snapshotKey)
   }
 
   async getContainer(id: string): Promise<ContentContainer> {

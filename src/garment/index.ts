@@ -48,7 +48,10 @@ class Garment {
   })
 
   snapshot = () => ({
-    get: (id: string, eager = false) => this.get(id, GarmentEnv.Snapshot, eager),
+    get: (id: number | string, version: string, eager = false) => {
+      const snapshotKey = Repository.getSnapshotKey(id, version)
+      return this.get(snapshotKey, GarmentEnv.Snapshot, eager)
+    },
     getContainer: (id: string, repositoryId: string) =>
       this.getContainer(id, repositoryId, GarmentEnv.Snapshot),
   })
