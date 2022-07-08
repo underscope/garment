@@ -16,7 +16,7 @@ export class ContentElement {
   contentSignature: string
   type: string
   position: number
-  refs: any
+  refs: { [key: string]: any }
   meta: { [key: string]: any }
   data: {
     assets: { [key: string]: string }
