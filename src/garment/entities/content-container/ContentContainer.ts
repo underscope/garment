@@ -4,7 +4,6 @@ import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
-
 import { ContentElement } from '../content-element'
 
 export class ContentContainer {
