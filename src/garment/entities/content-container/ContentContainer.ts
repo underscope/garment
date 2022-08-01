@@ -17,6 +17,7 @@ export class ContentContainer {
   parentId: number
   type: string
   position: number
+  publishedAs: string
 
   @Type(() => ContentElement)
   elements: ContentElement[]
