@@ -62,4 +62,8 @@ export class Activity {
       `${containerSummary.publishedAs}.json`)
     return plainToClass(ContentContainer, { ...containerSummary, ...containerData })
   }
+
+  toJSON() {
+    return omit(this, ['isLoaded', 'repository'])
+  }
 }
