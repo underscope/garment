@@ -63,6 +63,7 @@ export class Activity {
     return plainToClass(ContentContainer, {
       ...containerManifest,
       ...containerData,
+      isLoaded: true,
     })
   }
 
