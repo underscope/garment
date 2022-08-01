@@ -3,17 +3,17 @@ import omit from 'lodash/omit'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
+import type { FileKey } from '../../interfaces'
 import { ContentContainer, Repository } from '../'
 
 export class Activity {
   static api: any
-  static fileKeyProp: 'id' | 'uid' = 'id'
+  static fileKeyProp: FileKey = 'id'
 
   isLoaded = false
 
   id: number
   uid: string
-  repositoryId: number
   type: string
   position: number
   relationships: Object
@@ -54,7 +54,7 @@ export class Activity {
 
   async getContainer(id: number | string): Promise<ContentContainer> {
     const containerSummary = this.contentContainers.find(it => it.sourceKey === id)
-    if (!containerSummary) throw new Error (`The '${id}' container does not exist!`)
+    if (!containerSummary) throw new Error (`The container '${id}' does not exist!`)
     const containerData = await Activity.api.getContainer(
       id,
       this.repository.sourceKey,
