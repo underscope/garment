@@ -7,7 +7,7 @@ import type { GarmentEnv } from '../garment/enums'
 
 const CATALOG_FILENAME = 'index.json'
 const REPOSITORY_ROOT_FILENAME = 'index.json'
-const CONTAINER_EXTENSION = '.container.json'
+const CONTAINER_EXTENSION = 'container.json'
 
 class StorageAPI {
   #storage: FileStorage
@@ -43,9 +43,13 @@ class StorageAPI {
     return this.#storage.copyDirectory(src, dst)
   }
 
-  getContainer(id: string, repositoryId: string, location = this.#config.sourcePath) {
+  getContainer(
+    id: string,
+    repositoryId: string,
+    location = this.#config.sourcePath,
+    ext = CONTAINER_EXTENSION) {
     return this.#storage
-      .getJSON(this.getContainerPath(id, repositoryId, location))
+      .getJSON(this.getContainerPath(id, repositoryId, location, ext))
   }
 
   private getCatalogPath() {
@@ -59,8 +63,9 @@ class StorageAPI {
   private getContainerPath(
     containerId: string,
     repositoryId: string,
-    location = this.#config.sourcePath) {
-    return this.path(location, repositoryId, `${containerId}${CONTAINER_EXTENSION}`)
+    location = this.#config.sourcePath,
+    ext = CONTAINER_EXTENSION) {
+    return this.path(location, repositoryId, `${containerId}.${ext}`)
   }
 
   private path(...segments: string[]): string {

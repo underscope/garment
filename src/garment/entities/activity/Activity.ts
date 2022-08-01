@@ -1,4 +1,5 @@
 import bytes from 'bytes'
+import omit from 'lodash/omit'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
@@ -39,7 +40,7 @@ export class Activity {
 
   async load(): Promise<Activity> {
     const { contentContainers } = this
-    const fetch = contentContainers.map(it => this.getContainer(it.id.toString()))
+    const fetch = contentContainers.map(it => this.getContainer(it.sourceKey))
     await Promise
       .all(fetch)
       .then((containers) => { this.contentContainers = containers })
@@ -51,8 +52,14 @@ export class Activity {
     return Promise.all(this.contentContainers.map(it => it.makePublic()))
   }
 
-  async getContainer(id: string): Promise<ContentContainer> {
-    const data = await Activity.api.getContainer(id, this.repositoryId.toString())
-    return plainToClass(ContentContainer, data)
+  async getContainer(id: number | string): Promise<ContentContainer> {
+    const containerSummary = this.contentContainers.find(it => it.sourceKey === id)
+    if (!containerSummary) throw new Error (`The '${id}' container does not exist!`)
+    const containerData = await Activity.api.getContainer(
+      id,
+      this.repository.sourceKey,
+      this.repository.envPath,
+      `${containerSummary.publishedAs}.json`)
+    return plainToClass(ContentContainer, { ...containerSummary, ...containerData })
   }
 }
