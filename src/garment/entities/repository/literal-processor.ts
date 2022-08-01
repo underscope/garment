@@ -8,17 +8,9 @@ function attachEnvironmentPath(
   return repository
 }
 
-function attachRepositoryIdToActivity(repository: Repository) {
-  repository.structure.forEach((activity) => {
-    activity.repositoryId = repository.id
-  })
-  return repository
-}
-
 export default (repository: Repository, context: EntityProcessorContext) => {
   const processors = [
     attachEnvironmentPath,
-    attachRepositoryIdToActivity,
   ]
   processors.forEach(f => f(repository, context))
   return repository

@@ -2,9 +2,9 @@ import { plainToInstance } from 'class-transformer'
 
 import API from '../api'
 import type { FileStorageConfig } from '../storage/interfaces'
+import { instanceProcessor, literalProcessor } from './entities/repository'
 import type { GarmentConfig } from './interfaces'
 import { GarmentEnv } from './enums'
-import { literalProcessor } from './entities/repository'
 
 import {
   Activity,
@@ -66,6 +66,7 @@ class Garment {
     return this.api.get(id, location)
       .then(item => literalProcessor(item, { env, config: this.config }))
       .then(repository => plainToInstance(Repository, repository))
+      .then(repository => instanceProcessor(repository))
       .then(repository => eager ? repository.load() : repository)
   }
 
