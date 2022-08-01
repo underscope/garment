@@ -4,7 +4,6 @@ import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
-
 import { Activity, ContentContainer } from '../'
 import { GarmentEnv } from '../../enums'
 
@@ -13,6 +12,7 @@ export class Repository {
   static fileKeyProp: FileKey = 'id'
   static getSnapshotKey = (id: number | string, version: string) => `${id}/${version}`
 
+  env: GarmentEnv
   envPath: string
   isLoaded = false
 
@@ -67,7 +67,13 @@ export class Repository {
   }
 
   snapshot() {
-    return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, this.snapshotKey)
+    const { snapshotKey } = this
+    if (this.env === GarmentEnv.Snapshot) {
+      const msg = `Cannot create a snapshot for existing snapshot: ${snapshotKey}`
+      throw new Error(msg)
+    }
+
+    return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, snapshotKey)
   }
 
   async getContainer(id: string): Promise<ContentContainer> {
