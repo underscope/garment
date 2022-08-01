@@ -1,7 +1,7 @@
 import bytes from 'bytes'
 import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
-import { Type, plainToClass } from 'class-transformer'
+import { Transform, Type, plainToClass } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
 
@@ -25,6 +25,7 @@ export class Repository {
   meta: { [key: string]: any }
 
   @Type(() => Activity)
+  @Transform(({ value, obj }) => value.map((it: any) => ({ ...it, repository: obj })))
   structure: Activity[]
 
   @Type(() => Date)
