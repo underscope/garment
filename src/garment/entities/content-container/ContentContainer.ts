@@ -33,6 +33,10 @@ export class ContentContainer {
     return isString(key) ? key : String(key)
   }
 
+  get fileExtension(): string {
+    return `${this.publishedAs}.json`
+  }
+
   get size(): string {
     return bytes(sizeof(this))
   }

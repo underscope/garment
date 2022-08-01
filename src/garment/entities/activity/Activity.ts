@@ -53,14 +53,17 @@ export class Activity {
   }
 
   async getContainer(id: number | string): Promise<ContentContainer> {
-    const containerSummary = this.contentContainers.find(it => it.sourceKey === id)
-    if (!containerSummary) throw new Error (`The container '${id}' does not exist!`)
+    const containerManifest = this.contentContainers.find(it => it.sourceKey === id)
+    if (!containerManifest) throw new Error (`The container '${id}' does not exist!`)
     const containerData = await Activity.api.getContainer(
       id,
       this.repository.sourceKey,
       this.repository.envPath,
-      `${containerSummary.publishedAs}.json`)
-    return plainToClass(ContentContainer, { ...containerSummary, ...containerData })
+      containerManifest.fileExtension)
+    return plainToClass(ContentContainer, {
+      ...containerManifest,
+      ...containerData,
+    })
   }
 
   toJSON() {

@@ -1,4 +1,5 @@
 import bytes from 'bytes'
+import flatten from 'lodash/flatten'
 import isString from 'lodash/isString'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
@@ -51,6 +52,11 @@ export class Repository {
     return this.structure.filter(it => it.contentContainers?.length)
   }
 
+  get containers(): ContentContainer[] {
+    const { activitiesWithContainers: activities } = this
+    return flatten(activities.map(it => it.contentContainers))
+  }
+
   async load(): Promise<Repository> {
     await Promise.all(this.activitiesWithContainers.map(it => it.load()))
     this.isLoaded = true
@@ -76,8 +82,15 @@ export class Repository {
     return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, snapshotKey)
   }
 
-  async getContainer(id: string): Promise<ContentContainer> {
-    const data = await Repository.api.getContainer(id, this.sourceKey)
+  async getContainer(id: number | string): Promise<ContentContainer> {
+    const container = this.containers.find(it => it.sourceKey === id)
+    if (!container) throw new Error(`Container ${id} does not exist!`)
+    if (container.isLoaded) return container
+    const data = await Repository.api.getContainer(
+      id,
+      this.sourceKey,
+      this.envPath,
+      container.fileExtension)
     return plainToClass(ContentContainer, data)
   }
 }
