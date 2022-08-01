@@ -2,7 +2,7 @@ import bytes from 'bytes'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
-import { ContentContainer } from '../content-container'
+import { ContentContainer, Repository } from '../'
 
 export class Activity {
   static api: any
@@ -17,6 +17,9 @@ export class Activity {
   position: number
   relationships: Object
   meta: { [key: string]: any }
+
+  @Type(() => Repository)
+  repository: Repository
 
   @Type(() => ContentContainer)
   contentContainers: ContentContainer[]
