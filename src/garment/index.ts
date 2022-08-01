@@ -41,7 +41,7 @@ class Garment {
   }
 
   source = () => ({
-    list: () => this.list,
+    list: () => this.list(),
     get: (id: string, eager = false) => this.get(id, GarmentEnv.Source, eager),
     getContainer: (id: string, repositoryId: string) =>
       this.getContainer(id, repositoryId, GarmentEnv.Source),
