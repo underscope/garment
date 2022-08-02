@@ -81,7 +81,8 @@ class Amazon implements FileStorage {
     const fileNames = await this.listObjects(dirPath)
     return Promise
       .all(fileNames.map((fileName: string) => {
-        const dst = path.join(newDirPath, path.basename(fileName))
+        const relativePath = fileName.substring(dirPath.length, fileName.length)
+        const dst = path.join(newDirPath, relativePath)
         return this.copyObject(fileName, dst)
       }))
       .then(noop)
