@@ -12,9 +12,11 @@ app.get('/', async (_, res) => {
 })
 
 app.get('/repository/:id', async ({ params, query }, res) => {
-  const eager = !!query.eager
   const public = !!query.public
-  const repository = await garment.source().get(params.id, { eager })
+  const opts = { eager: !!query.eager }
+  const repository = query.snapshot
+    ? await garment.snapshot().get(params.id, query.snapshot, opts)
+    : await garment.source().get(params.id, opts)
   if (public) await repository.makePublic()
   res.json({
     size: repository.size,
@@ -22,6 +24,12 @@ app.get('/repository/:id', async ({ params, query }, res) => {
     containers: repository.containers,
     data: repository,
   })
+})
+
+app.get('/repository/:id/snapshot', async ({ params }, res) => {
+  const repository = await garment.source().get(params.id)
+  await repository.snapshot()
+  res.json({ repository })
 })
 
 app.listen(config.port, () => {
