@@ -2,7 +2,7 @@ import path from 'path'
 import initStorageAdapter from '../storage'
 
 import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
-import type { GarmentConfig } from '../garment/interfaces'
+import type { FileKeyType, GarmentConfig } from '../garment/interfaces'
 import type { GarmentEnv } from '../garment/enums'
 
 const CATALOG_FILENAME = 'index.json'
@@ -24,7 +24,7 @@ class StorageAPI {
     return this.#storage.getJSON(this.getCatalogPath())
   }
 
-  get(id: string, location = this.#config.sourcePath): Promise<any> {
+  get(id: FileKeyType, location = this.#config.sourcePath): Promise<any> {
     const repositoryPath = this.getRepositoryPath(id, location)
     const key = this.path(repositoryPath, REPOSITORY_ROOT_FILENAME)
     return this.#storage.getJSON(key)
@@ -56,8 +56,8 @@ class StorageAPI {
     return this.path(this.#config.sourcePath, CATALOG_FILENAME)
   }
 
-  private getRepositoryPath(id: string, location = this.#config.sourcePath) {
-    return this.path(location, id, '/')
+  private getRepositoryPath(id: FileKeyType, location = this.#config.sourcePath) {
+    return this.path(location, `${id}`, '/')
   }
 
   private getContainerPath(
