@@ -1,5 +1,9 @@
 require('dotenv').config({ path: '../../.env' })
 
+const app = {
+  port: process.env.EXAMPLE_API_PORT || 3000,
+}
+
 const storage = {
   provider: 'aws',
   bucket: process.env.BUCKET,
@@ -11,5 +15,6 @@ const storage = {
 }
 
 module.exports = {
+  ...app,
   storage,
 }
