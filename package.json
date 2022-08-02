@@ -42,7 +42,8 @@
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed": "node ./examples/setup/index.js"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.1",
@@ -57,6 +58,7 @@
     "esno": "^0.16.3",
     "pnpm": "^7.8.0",
     "rimraf": "^3.0.2",
+    "s3-folder-upload": "^2.3.5",
     "typescript": "^4.7.4",
     "unbuild": "^0.7.6",
     "vite": "^2.9.12",
@@ -66,6 +68,7 @@
     "aws-sdk": "^2.1185.0",
     "bytes": "^3.1.2",
     "class-transformer": "^0.5.1",
+    "dotenv": "^16.0.1",
     "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
     "object-sizeof": "^1.6.3",
