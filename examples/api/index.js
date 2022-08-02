@@ -16,7 +16,12 @@ app.get('/repository/:id', async ({ params, query }, res) => {
   const public = !!query.public
   const repository = await garment.source().get(params.id, { eager })
   if (public) await repository.makePublic()
-  res.json(repository)
+  res.json({
+    size: repository.size,
+    location: repository.path,
+    containers: repository.containers,
+    data: repository,
+  })
 })
 
 app.listen(config.port, () => {
