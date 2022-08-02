@@ -43,7 +43,8 @@
     "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "seed": "node ./examples/setup/index.js"
+    "seed": "node ./examples/setup/seed.js",
+    "clean": "node ./examples/setup/clean.js"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.1",
