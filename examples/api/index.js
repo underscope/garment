@@ -1,9 +1,10 @@
 const express = require('express')
-const { Garment } = require('../../dist/index.cjs')
-const config = require('./config')
+const { Garment } = require('../../dist/index')
 
-const { log } = console
 const app = express()
+const config = require('./config')
+const { log } = console
+
 const garment = new Garment(config.storage)
 
 app.get('/', async (_, res) => {
