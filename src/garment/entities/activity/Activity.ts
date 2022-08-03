@@ -4,6 +4,7 @@ import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
+import { GarmentEnv } from '../../enums'
 import { ContentContainer, Repository } from '../'
 
 export class Activity {
@@ -55,9 +56,12 @@ export class Activity {
   async getContainer(id: number | string): Promise<ContentContainer> {
     const containerManifest = this.contentContainers.find(it => it.sourceKey === id)
     if (!containerManifest) throw new Error (`The container '${id}' does not exist!`)
+    const repositoryKey = this.repository.env === GarmentEnv.Source
+      ? this.repository.sourceKey
+      : this.repository.snapshotKey
     const containerData = await Activity.api.getContainer(
       id,
-      this.repository.sourceKey,
+      repositoryKey,
       this.repository.envPath,
       containerManifest.fileExtension)
     return plainToClass(ContentContainer, {

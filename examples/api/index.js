@@ -1,5 +1,5 @@
 const express = require('express')
-const { Garment } = require('../../dist/index')
+const { Garment } = require('../../dist/index.cjs')
 
 const app = express()
 const config = require('./config')
