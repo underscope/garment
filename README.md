@@ -1,7 +1,15 @@
 # 👕 Garment
 
-Utility for managing published Tailor content.
+Utility for managing published Tailor content. Provides ability to:
+- ✅ list published repositories
+- ✅ load Repository instance and all nested entities (Activities, Content Containers, Content Elements)
+- ✅ snapshot repository
+- ✅ load from snapshot
+- ✅ sign ContentElement assets for delivery
+- 🚧 cache presigned Repository instance
 
+  
+  
 Initialize garment by providing storage provider configuration.
 
 ```js
@@ -18,13 +26,19 @@ const garment = new Garment({
 
 ## API
 
-### Fetching published resources
+### Fetching resources
 
-#### `list()`
-Retrieves the list of published repositories
+Retrieve the list of published repositories
+```js 
+garment.source().list()
+```
 
-#### `get(id: string)`
-Retrieves repository root file, containing the repository outline (structure)
+Retrieve repository from source dir (published version)
+```js
+garment.source().get(id)
+```
 
-#### `getContainer(id: string, repositoryId: string)`
-Retrieves content container
+Retrieve repository snapshot
+```js
+garment.snapshot().get(id, version)
+```
