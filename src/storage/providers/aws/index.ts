@@ -1,7 +1,7 @@
 import path from 'path'
 
 import mime from 'mime-types'
-import S3 from 'aws-sdk/clients/s3'
+import S3 from 'aws-sdk/clients/s3.js'
 
 import type { AWSError } from 'aws-sdk'
 import type { GetObjectResponse } from '../../types'
