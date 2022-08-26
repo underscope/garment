@@ -1,5 +1,5 @@
 import bytes from 'bytes'
-import omit from 'lodash/omit'
+import omit from 'lodash/omit.js'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 

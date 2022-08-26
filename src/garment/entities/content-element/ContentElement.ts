@@ -1,5 +1,5 @@
 import bytes from 'bytes'
-import set from 'lodash/set'
+import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 

@@ -1,6 +1,6 @@
 import bytes from 'bytes'
-import flatten from 'lodash/flatten'
-import isString from 'lodash/isString'
+import flatten from 'lodash/flatten.js'
+import isString from 'lodash/isString.js'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
 
