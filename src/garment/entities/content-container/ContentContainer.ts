@@ -22,6 +22,9 @@ export class ContentContainer {
   @Type(() => ContentElement)
   elements: ContentElement[]
 
+  @Type(() => ContentContainer)
+  containers: ContentContainer[]
+
   @Type(() => Date)
   createdAt: Date
 
@@ -41,7 +44,11 @@ export class ContentContainer {
     return bytes(sizeof(this))
   }
 
-  makePublic(secondsAvailable?: number) {
-    return Promise.all(this.elements.map(it => it.makePublic(secondsAvailable)))
+  async makePublic(secondsAvailable?: number) {
+    if (this.elements)
+      await Promise.all(this.elements.map(it => it.makePublic(secondsAvailable)))
+
+    if (this.containers)
+      await Promise.all(this.containers.map(it => it.makePublic(secondsAvailable)))
   }
 }
