@@ -20,6 +20,7 @@ export class ContentElement {
   meta: { [key: string]: any }
   data: {
     assets: { [key: string]: string }
+    [key: string]: any
   }
 
   @Type(() => Date)
@@ -44,7 +45,14 @@ export class ContentElement {
    * result in signed 'storage://test.png' url set on data['deep.url'] path).
    */
   private async processAssets(interval: number) {
-    if (!this.data?.assets) return
+    if (!this.data?.assets) {
+      // Support legacy image format
+      if (this.type === 'IMAGE' && this.data?.url.startsWith('repository/'))
+        this.processLegacyImageElement()
+      else
+        return
+    }
+
     const assets = Object.entries(this.data.assets)
     await Promise.all(assets.map(async ([keyWithinData, url = '']) => {
       url = this.isStorageAsset(url)
@@ -52,6 +60,10 @@ export class ContentElement {
         : url
       set(this.data, keyWithinData, url)
     }))
+  }
+
+  private async processLegacyImageElement() {
+    this.data.assets = { url: `${INTERNAL_STORAGE_PROTOCOL}${this.data.url}` }
   }
 
   private getSignedAssetUrl(url: string, interval: number) {
