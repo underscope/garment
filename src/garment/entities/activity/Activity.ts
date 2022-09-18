@@ -15,6 +15,7 @@ export class Activity {
 
   id: number
   uid: string
+  parentId: number
   type: string
   position: number
   relationships: Object
