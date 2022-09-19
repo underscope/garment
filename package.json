@@ -1,7 +1,7 @@
 {
   "name": "@tailor-cms/garment",
   "type": "module",
-  "version": "0.7.0",
+  "version": "0.7.2",
   "packageManager": "pnpm@7.2.1",
   "description": "",
   "author": "Damir P. <underscope@gmail.com>",
@@ -68,7 +68,7 @@
   "dependencies": {
     "aws-sdk": "^2.1202.0",
     "bytes": "^3.1.2",
-    "camelcase": "^7.0.0",
+    "camelcase": "^6.3.0",
     "class-transformer": "^0.5.1",
     "dotenv": "^16.0.1",
     "lodash": "^4.17.21",

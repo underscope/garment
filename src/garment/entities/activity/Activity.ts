@@ -1,7 +1,7 @@
+import { Exclude, Type, plainToClass } from 'class-transformer'
 import bytes from 'bytes'
 import omit from 'lodash/omit.js'
 import sizeof from 'object-sizeof'
-import { Type, plainToClass } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
 import { GarmentEnv } from '../../enums'
@@ -22,6 +22,7 @@ export class Activity {
   meta: { [key: string]: any }
 
   @Type(() => Repository)
+  @Exclude({ toPlainOnly: true })
   repository: Repository
 
   @Type(() => ContentContainer)

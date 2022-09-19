@@ -1,8 +1,8 @@
+import { Expose, Type } from 'class-transformer'
 import bytes from 'bytes'
 import camelCase from 'camelcase'
 import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
-import { Type } from 'class-transformer'
 
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
@@ -29,6 +29,11 @@ export class ContentElement {
 
   @Type(() => Date)
   updatedAt: Date
+
+  @Expose()
+  get '@type'() {
+    return camelCase(this.type, { pascalCase: true });
+  }
 
   get size(): string {
     return bytes(sizeof(this))
@@ -77,12 +82,5 @@ export class ContentElement {
 
   private getAssetPath(url: string) {
     return url.substring(INTERNAL_STORAGE_PROTOCOL.length)
-  }
-
-  toJSON() {
-    return {
-      '@type': camelCase(this.type, { pascalCase: true }),
-      ...this,
-    }
   }
 }
