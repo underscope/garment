@@ -14,6 +14,7 @@ importers:
       aws-sdk: ^2.1202.0
       bumpp: ^8.2.1
       bytes: ^3.1.2
+      camelcase: ^7.0.0
       class-transformer: ^0.5.1
       dotenv: ^16.0.1
       eslint: ^8.22.0
@@ -32,6 +33,7 @@ importers:
     dependencies:
       aws-sdk: 2.1202.0
       bytes: 3.1.2
+      camelcase: 7.0.0
       class-transformer: 0.5.1
       dotenv: 16.0.1
       lodash: 4.17.21
@@ -1086,6 +1088,11 @@ packages:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /camelcase/7.0.0:
+    resolution: {integrity: sha512-JToIvOmz6nhGsUhAYScbo2d6Py5wojjNfoxoc2mEVLUdJ70gJK2gnd+ABY1Tc3sVMyK7QDPtN0T/XdlCQWITyQ==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /caniuse-lite/1.0.30001383:
     resolution: {integrity: sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==}

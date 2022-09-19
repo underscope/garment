@@ -1,4 +1,5 @@
 import bytes from 'bytes'
+import camelCase from 'camelcase'
 import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
@@ -76,5 +77,12 @@ export class ContentElement {
 
   private getAssetPath(url: string) {
     return url.substring(INTERNAL_STORAGE_PROTOCOL.length)
+  }
+
+  toJSON() {
+    return {
+      '@type': camelCase(this.type, { pascalCase: true }),
+      ...this,
+    }
   }
 }
