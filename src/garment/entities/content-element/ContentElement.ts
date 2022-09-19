@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import bytes from 'bytes'
 import camelCase from 'camelcase'
 import set from 'lodash/set.js'
@@ -19,6 +19,12 @@ export class ContentElement {
   position: number
   refs: { [key: string]: any }
   meta: { [key: string]: any }
+
+  // Inject type for protobuf
+  @Transform(({ value, obj }) => ({
+    ...value,
+    '@type': camelCase(obj.type, { pascalCase: true }),
+  }))
   data: {
     assets: { [key: string]: string }
     [key: string]: any
@@ -29,11 +35,6 @@ export class ContentElement {
 
   @Type(() => Date)
   updatedAt: Date
-
-  @Expose()
-  get '@type'() {
-    return camelCase(this.type, { pascalCase: true });
-  }
 
   get size(): string {
     return bytes(sizeof(this))
