@@ -60,6 +60,8 @@ class Garment {
       this.getContainer(id, repositoryId, GarmentEnv.Snapshot),
   })
 
+  registerElements = (elements: any) => ContentElement.registry = elements
+
   private list(): Promise<CatalogEntry[]> {
     return this.api.list()
       .then(items => plainToInstance(CatalogEntry, items))

@@ -8,8 +8,14 @@ import sizeof from 'object-sizeof'
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
 const INTERNAL_STORAGE_PROTOCOL = 'storage://'
 
+const FETCH_HOOKS = {
+  AFTER_RETRIEVE: 'afterRetrieve',
+  AFTER_LOADED: 'afterLoaded',
+}
+
 export class ContentElement {
   static api: any
+  static registry: any
 
   id: number
   uid: string
@@ -40,8 +46,19 @@ export class ContentElement {
     return bytes(sizeof(this))
   }
 
-  makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
+  async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
+    if (ContentElement.registry) await this.applyFetchHooks()
     return this.processAssets(interval)
+  }
+
+  private applyFetchHooks() {
+    return Object.values(FETCH_HOOKS)
+      .map(hook => this.getHook(hook)).filter(Boolean)
+      .reduce(async (element, hook) => hook(await element), this)
+  }
+
+  private getHook(hook: string) {
+    return ContentElement.registry.getHook(this.type, hook)
   }
 
   /**
