@@ -10,6 +10,11 @@ const INTERNAL_STORAGE_PROTOCOL = 'storage://'
 
 export class ContentElement {
   static api: any
+  /**
+  * Custom processors contain server side methods required for the execution of
+  * specific content elements
+  */
+  static customProcessorRegistry: (type: string) => Function
 
   id: number
   uid: string
@@ -40,7 +45,12 @@ export class ContentElement {
     return bytes(sizeof(this))
   }
 
-  makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
+  get customProcessor(): Function | undefined {
+    return ContentElement.customProcessorRegistry?.(this.type)
+  }
+
+  async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
+    if (this.customProcessor) await this.customProcessor(this)
     return this.processAssets(interval)
   }
 
