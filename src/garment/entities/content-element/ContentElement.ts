@@ -45,7 +45,7 @@ export class ContentElement {
     return bytes(sizeof(this))
   }
 
-  get customProcessor(): any {
+  get customProcessor(): Function | undefined {
     return ContentElement.customProcessorRegistry?.(this.type)
   }
 
