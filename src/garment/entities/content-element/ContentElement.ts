@@ -10,6 +10,10 @@ const INTERNAL_STORAGE_PROTOCOL = 'storage://'
 
 export class ContentElement {
   static api: any
+  /**
+  * Custom processors contain server side methods required for the execution of
+  * specific content elements
+  */
   static customProcessorRegistry: (type: string) => Function
 
   id: number
