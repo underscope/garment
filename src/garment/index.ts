@@ -60,8 +60,8 @@ class Garment {
       this.getContainer(id, repositoryId, GarmentEnv.Snapshot),
   })
 
-  addContentElementProcessor = (processor: any) => {
-    ContentElement.customProcessor = processor
+  addContentElementProcessor = (processorRegistry: (type: string) => Function) => {
+    ContentElement.customProcessorRegistry = processorRegistry
   }
 
   private list(): Promise<CatalogEntry[]> {

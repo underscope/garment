@@ -10,7 +10,7 @@ const INTERNAL_STORAGE_PROTOCOL = 'storage://'
 
 export class ContentElement {
   static api: any
-  static customProcessor: any
+  static customProcessorRegistry: (type: string) => Function
 
   id: number
   uid: string
@@ -42,7 +42,7 @@ export class ContentElement {
   }
 
   get customProcessor(): any {
-    return ContentElement.customProcessor?.(this.type)
+    return ContentElement.customProcessorRegistry?.(this.type)
   }
 
   async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
