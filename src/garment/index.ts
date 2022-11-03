@@ -60,6 +60,10 @@ class Garment {
       this.getContainer(id, repositoryId, GarmentEnv.Snapshot),
   })
 
+  addContentElementProcessor = (processorRegistry: (type: string) => Function) => {
+    ContentElement.customProcessorRegistry = processorRegistry
+  }
+
   private list(): Promise<CatalogEntry[]> {
     return this.api.list()
       .then(items => plainToInstance(CatalogEntry, items))
