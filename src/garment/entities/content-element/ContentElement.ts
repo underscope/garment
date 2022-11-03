@@ -7,6 +7,7 @@ import sizeof from 'object-sizeof'
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
 const INTERNAL_STORAGE_PROTOCOL = 'storage://'
+
 export class ContentElement {
   static api: any
   static customProcessor: any
@@ -41,7 +42,7 @@ export class ContentElement {
   }
 
   get customProcessor(): any {
-    return ContentElement.customProcessor(this.type)
+    return ContentElement.customProcessor?.(this.type)
   }
 
   async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
