@@ -7,6 +7,7 @@ import sizeof from 'object-sizeof'
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
 const INTERNAL_STORAGE_PROTOCOL = 'storage://'
+const isAssessment = (type: string) => type === 'ASSESSMENT'
 
 export class ContentElement {
   static api: any
@@ -28,7 +29,9 @@ export class ContentElement {
   // Inject type for protobuf
   @Transform(({ value, obj }) => ({
     ...value,
-    '@type': camelCase(obj.type, { pascalCase: true }),
+    '@type': camelCase(isAssessment(obj.type)
+      ? `${obj.type}_${obj.data.type}`
+      : obj.type, { pascalCase: true }),
   }))
   data: {
     assets: { [key: string]: string }
