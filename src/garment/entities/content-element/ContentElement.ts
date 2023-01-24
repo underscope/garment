@@ -7,7 +7,7 @@ import sizeof from 'object-sizeof'
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
 const INTERNAL_STORAGE_PROTOCOL = 'storage://'
-const isAssessment = (type: string) => type === 'ASSESSMENT'
+const isAssessment = (type: string) => ['ASSESSMENT', 'REFLECTION'].includes(type)
 
 export class ContentElement {
   static api: any
