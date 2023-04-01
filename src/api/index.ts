@@ -4,6 +4,7 @@ import initStorageAdapter from '../storage'
 import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
 import type { FileKeyType, GarmentConfig } from '../garment/interfaces'
 import type { GarmentEnv } from '../garment/enums'
+import initProcessMeta from './process-meta'
 
 const CATALOG_FILENAME = 'index.json'
 const REPOSITORY_ROOT_FILENAME = 'index.json'
@@ -12,12 +13,14 @@ const CONTAINER_EXTENSION = 'container.json'
 class StorageAPI {
   #storage: FileStorage
   #config: GarmentConfig
+  processMeta: Function
 
   constructor(
     storageConfig: FileStorageConfig,
     garmentConfig: GarmentConfig) {
     this.#storage = initStorageAdapter(storageConfig)
     this.#config = garmentConfig
+    this.processMeta = initProcessMeta(this)
   }
 
   list(): Promise<[any]> {
