@@ -54,7 +54,10 @@ export class ContentElement {
 
   async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
     if (this.customProcessor) await this.customProcessor(this)
-    return this.processAssets(interval)
+    return Promise.all([
+      this.processAssets(interval),
+      this.processMeta(interval),
+    ])
   }
 
   /**
@@ -74,11 +77,23 @@ export class ContentElement {
     }
 
     const assets = Object.entries(this.data.assets)
-    await Promise.all(assets.map(async ([keyWithinData, url = '']) => {
+    return Promise.all(assets.map(async ([keyWithinData, url = '']) => {
       url = this.isStorageAsset(url)
         ? await this.getSignedAssetUrl(url, interval)
         : url
       set(this.data, keyWithinData, url)
+    }))
+  }
+
+  /**
+   * Signs all element.meta internal urls;
+   * adds token param which enables access for a limited time.
+   */
+  private async processMeta(interval: number) {
+    const meta = Object.entries(this.meta)
+    return Promise.all(meta.map(async ([_, value]) => {
+      if (!value?.url || !this.isStorageAsset(value.url)) Promise.resolve()
+      value.publicUrl = await this.getSignedAssetUrl(value.url, interval)
     }))
   }
 
