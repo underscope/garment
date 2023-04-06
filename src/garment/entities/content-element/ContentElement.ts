@@ -56,7 +56,7 @@ export class ContentElement {
     if (this.customProcessor) await this.customProcessor(this)
     return Promise.all([
       this.processAssets(interval),
-      this.processMeta(interval),
+      await ContentElement.api.processMeta(this.meta),
     ])
   }
 

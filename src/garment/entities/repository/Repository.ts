@@ -64,7 +64,10 @@ export class Repository {
   }
 
   async makePublic(): Promise<Repository> {
-    await Promise.all(this.activitiesWithContainers.map(it => it.makePublic()))
+    await Promise.all([
+      ...this.activitiesWithContainers.map(it => it.makePublic()),
+      Repository.api.processMeta(this.meta),
+    ])
     return this
   }
 
