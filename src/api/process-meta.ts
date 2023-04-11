@@ -1,3 +1,5 @@
+// seconds, 12 hrs
+const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
 const INTERNAL_STORAGE_PROTOCOL = 'storage://'
 
 interface MetaInputs { [key: string]: any }
@@ -17,7 +19,9 @@ export default function (api: any) {
 
   // Signs all internal urls;
   // adds token param which enables access for a limited time.
-  return function processMeta(inputs: MetaInputs, interval: number) {
+  return function processMeta(
+    inputs: MetaInputs,
+    interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
     const meta = Object.entries(inputs)
     return Promise.all(meta.map(async ([_, value]) => {
       if (!value?.url || !isStorageAsset(value?.url)) Promise.resolve()
