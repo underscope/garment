@@ -51,8 +51,11 @@ export class Activity {
     return this
   }
 
-  makePublic() {
-    return Promise.all(this.contentContainers.map(it => it.makePublic()))
+  makePublic(interval?: number) {
+    return Promise.all([
+      ...this.contentContainers.map(it => it.makePublic(interval)),
+      Activity.api.processMeta(this.meta, interval),
+    ])
   }
 
   async getContainer(id: number | string): Promise<ContentContainer> {

@@ -63,9 +63,9 @@ export class Repository {
     return this
   }
 
-  async makePublic(): Promise<Repository> {
+  async makePublic(interval?: number): Promise<Repository> {
     await Promise.all([
-      ...this.activitiesWithContainers.map(it => it.makePublic()),
+      ...this.activitiesWithContainers.map(it => it.makePublic(interval)),
       Repository.api.processMeta(this.meta),
     ])
     return this

@@ -56,7 +56,7 @@ export class ContentElement {
     if (this.customProcessor) await this.customProcessor(this)
     return Promise.all([
       this.processAssets(interval),
-      await ContentElement.api.processMeta(this.meta),
+      ContentElement.api.processMeta(this.meta, interval),
     ])
   }
 
@@ -82,18 +82,6 @@ export class ContentElement {
         ? await this.getSignedAssetUrl(url, interval)
         : url
       set(this.data, keyWithinData, url)
-    }))
-  }
-
-  /**
-   * Signs all element.meta internal urls;
-   * adds token param which enables access for a limited time.
-   */
-  private async processMeta(interval: number) {
-    const meta = Object.entries(this.meta)
-    return Promise.all(meta.map(async ([_, value]) => {
-      if (!value?.url || !this.isStorageAsset(value.url)) Promise.resolve()
-      value.publicUrl = await this.getSignedAssetUrl(value.url, interval)
     }))
   }
 

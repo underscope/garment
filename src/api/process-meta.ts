@@ -24,7 +24,7 @@ export default function (api: any) {
     interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
     const meta = Object.entries(inputs)
     return Promise.all(meta.map(async ([_, value]) => {
-      if (!value?.url || !isStorageAsset(value?.url)) Promise.resolve()
+      if (!value?.url || !isStorageAsset(value?.url)) return Promise.resolve()
       value.publicUrl = await getSignedAssetUrl(value.url, interval)
     }))
   }
