@@ -77,6 +77,6 @@ export class Activity {
   }
 
   toJSON() {
-    return omit(this, ['isLoaded', 'repository'])
+    return omit(this, ['repository'])
   }
 }
