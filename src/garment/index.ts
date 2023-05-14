@@ -64,6 +64,11 @@ class Garment {
     ContentElement.customProcessorRegistry = processorRegistry
   }
 
+  toRepositoryInstance = (repository: any) => {
+    const instance = plainToInstance(Repository, repository)
+    return instanceProcessor(instance)
+  }
+
   private list(): Promise<CatalogEntry[]> {
     return this.api.list()
       .then(items => plainToInstance(CatalogEntry, items))
