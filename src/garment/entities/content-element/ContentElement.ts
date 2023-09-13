@@ -70,7 +70,7 @@ export class ContentElement {
   private async processAssets(interval: number) {
     if (!this.data?.assets) {
       // Support legacy image format
-      if (this.type === 'IMAGE' && this.data?.url.startsWith('repository/'))
+      if (this.type === 'IMAGE' && this.data?.url?.startsWith('repository/'))
         this.processLegacyImageElement()
       else
         return
