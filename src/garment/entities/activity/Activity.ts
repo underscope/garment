@@ -3,9 +3,10 @@ import bytes from 'bytes'
 import omit from 'lodash/omit.js'
 import sizeof from 'object-sizeof'
 
+import { ContentContainer, Repository } from '../'
 import type { FileKey } from '../../interfaces'
 import { GarmentEnv } from '../../enums'
-import { ContentContainer, Repository } from '../'
+import type { GraphNodeArray } from '../../content-graph'
 
 export class Activity {
   static api: any
@@ -74,6 +75,15 @@ export class Activity {
       ...containerData,
       isLoaded: true,
     })
+  }
+
+  getSubtreeDescriptors(): Array<GraphNodeArray> {
+    const node = [this.id, this.uid, 'A', this.parentId]
+    const children = this.contentContainers?.length
+      ? this.contentContainers.reduce(
+        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)), [] as any)
+      : []
+    return [node, ...children]
   }
 
   toJSON() {

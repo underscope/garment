@@ -3,6 +3,7 @@ import bytes from 'bytes'
 import camelCase from 'camelcase'
 import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
+import type { GraphNodeArray } from '../../content-graph'
 
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
@@ -99,5 +100,12 @@ export class ContentElement {
 
   private getAssetPath(url: string) {
     return url.substring(INTERNAL_STORAGE_PROTOCOL.length)
+  }
+
+  getNodeDescriptor(
+    parentActivityId: number,
+    positionInAggregate: number,
+  ): GraphNodeArray {
+    return [this.id, this.uid, 'CE', parentActivityId, positionInAggregate]
   }
 }
