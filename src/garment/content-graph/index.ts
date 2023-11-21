@@ -71,12 +71,19 @@ export class ContentGraph {
     const [rootContainer, ...nestedContainers] = subPath?.length > 0
       ? [...subPath, node]
       : [node]
+    const containerInActivityPathPrefix = this.getContainerInActivityPathPrefix(
+      rootContainer.positionInAggregate,
+    )
+    const containerPath = nestedContainers?.length
+      ? this.constructContainerPath(nestedContainers)
+      : null
+    const activityPath = containerInActivityPathPrefix
+      + (containerPath ? `.${containerPath}` : '')
     return {
-      outlineActivity: activity,
-      rootContainer,
-      path: nestedContainers?.length
-        ? this.constructContainerPath(nestedContainers)
-        : '',
+      activity,
+      activityPath,
+      contentContainer: rootContainer,
+      contentContainerPath: containerPath,
     }
   }
 
@@ -89,11 +96,22 @@ export class ContentGraph {
     if (node.type !== 'CE') throw new Error('Node must be a content element!')
     const [activity, container, ...subPath]
       = this.resolveNodeLocation(node.parentId)
+    const containerInActivityPathPrefix = this.getContainerInActivityPathPrefix(
+      container.positionInAggregate,
+    )
+    const containerPath = this.constructElementPath(subPath, node)
+    const activityPath = `${containerInActivityPathPrefix}.${containerPath}`
     return {
-      outlineActivity: activity,
-      rootContainer: container,
-      path: this.constructElementPath(subPath, node),
+      activity,
+      activityPath,
+      contentContainer: container,
+      contentContainerPath: containerPath,
     }
+  }
+
+  // Loveable naming
+  private getContainerInActivityPathPrefix(positionInAggregate: number) {
+    return `contentContainers.${positionInAggregate}`
   }
 
   private constructContainerPath(
