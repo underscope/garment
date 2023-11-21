@@ -100,7 +100,8 @@ export class ContentGraph {
     subPath: Array<GraphNode> = [],
   ): string {
     return subPath.reduce((acc, it) => {
-      return `${acc}containers.${it.positionInAggregate}.`
+      if (acc !== '') acc += '.'
+      return `${acc}containers.${it.positionInAggregate}`
     }, '')
   }
 
