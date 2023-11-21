@@ -3,6 +3,7 @@ import flatten from 'lodash/flatten.js'
 import isString from 'lodash/isString.js'
 import sizeof from 'object-sizeof'
 import { Type, plainToClass } from 'class-transformer'
+import { ContentGraph } from '../../content-graph'
 
 import type { FileKey } from '../../interfaces'
 import { Activity, ContentContainer } from '../'
@@ -63,6 +64,13 @@ export class Repository {
     return this
   }
 
+  async getContentGraph(): Promise<ContentGraph> {
+    if (!this.isLoaded) await this.load()
+    const nodes = this.structure.reduce(
+      (acc, it) => acc.concat(it.getSubtreeDescriptors()), [] as any[])
+    return new ContentGraph(nodes)
+  }
+
   async makePublic(interval?: number): Promise<Repository> {
     await Promise.all([
       ...this.activitiesWithContainers.map(it => it.makePublic(interval)),
@@ -81,7 +89,6 @@ export class Repository {
       const msg = `Cannot create a snapshot for existing snapshot: ${snapshotKey}`
       throw new Error(msg)
     }
-
     return Repository.api.cloneToEnv(this.path, GarmentEnv.Snapshot, snapshotKey)
   }
 
