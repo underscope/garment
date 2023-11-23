@@ -21,7 +21,7 @@ const garment = new Garment({
     secretKey: 'aws-secret',
     region: 'eu-central-1'
   }
-});
+})
 ```
 
 ## API

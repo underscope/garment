@@ -1,4 +1,4 @@
-export type GetObjectResponse<ContentType> = {
+export interface GetObjectResponse<ContentType> {
   raw: Buffer
   content: ContentType
 }

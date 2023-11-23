@@ -46,6 +46,17 @@
     "seed": "node ./examples/setup/seed.js",
     "clean": "node ./examples/setup/clean.js"
   },
+  "dependencies": {
+    "aws-sdk": "^2.1202.0",
+    "bytes": "^3.1.2",
+    "camelcase": "^6.3.0",
+    "class-transformer": "^0.5.1",
+    "dotenv": "^16.0.1",
+    "lodash": "^4.17.21",
+    "mime-types": "^2.1.35",
+    "object-sizeof": "^1.6.3",
+    "reflect-metadata": "^0.1.13"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
     "@antfu/ni": "^0.17.2",
@@ -64,16 +75,5 @@
     "unbuild": "^0.8.9",
     "vite": "^3.0.9",
     "vitest": "^0.22.1"
-  },
-  "dependencies": {
-    "aws-sdk": "^2.1202.0",
-    "bytes": "^3.1.2",
-    "camelcase": "^6.3.0",
-    "class-transformer": "^0.5.1",
-    "dotenv": "^16.0.1",
-    "lodash": "^4.17.21",
-    "mime-types": "^2.1.35",
-    "object-sizeof": "^1.6.3",
-    "reflect-metadata": "^0.1.13"
   }
 }
