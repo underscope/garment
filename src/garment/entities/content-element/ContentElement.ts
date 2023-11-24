@@ -3,7 +3,8 @@ import bytes from 'bytes'
 import camelCase from 'camelcase'
 import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
-import type { GraphNodeArray } from '../../content-graph'
+
+import { type GraphNodeArray, NodeType } from '../../content-graph'
 
 // seconds, 12 hrs
 const DEFAULT_ACCESS_TOKEN_INTERVAL = 12 * 60 * 60
@@ -106,6 +107,12 @@ export class ContentElement {
     parentActivityId: number,
     positionInAggregate: number,
   ): GraphNodeArray {
-    return [this.id, this.uid, 'CE', parentActivityId, positionInAggregate]
+    return [
+      this.id,
+      this.uid,
+      NodeType.CONTENT_ELEMENT,
+      parentActivityId,
+      positionInAggregate,
+    ]
   }
 }

@@ -1,8 +1,13 @@
 export type Id = number
 export type Uid = string
-export type NodeType = 'A' | 'CC' | 'CE'
 export type ParentId = number
 export type PositionInAggregate = number
+
+export enum NodeType {
+  ACTIVITY = 'A',
+  CONTENT_CONTAINER = 'CC',
+  CONTENT_ELEMENT = 'CE',
+}
 
 export interface GraphNode {
   id: Id
@@ -27,8 +32,8 @@ export class ContentGraph {
 
   constructor(nodes: GraphNodeArray[]) {
     this.nodes = nodes
-    this.activities = this.nodes.filter(it => it[2] !== 'CE')
-    this.elements = this.nodes.filter(it => it[2] === 'CE')
+    this.activities = this.nodes.filter(it => it[2] !== NodeType.CONTENT_ELEMENT)
+    this.elements = this.nodes.filter(it => it[2] === NodeType.CONTENT_ELEMENT)
   }
 
   findNodeByUid(uid: string): GraphNode | null {
@@ -53,9 +58,11 @@ export class ContentGraph {
     if (!uid) throw new Error('id is required')
     const node = this.findNodeByUid(uid)
     if (!node) return null
-    if (node.type !== 'CC' && node.type !== 'CE')
-      throw new Error('Node must be a content element or a container!')
-    return node.type === 'CE'
+    if (
+      node.type !== NodeType.CONTENT_CONTAINER
+      && node.type !== NodeType.CONTENT_ELEMENT
+    ) throw new Error('Node must be a content element or a container!')
+    return node.type === NodeType.CONTENT_ELEMENT
       ? this.getElementPath(uid)
       : this.getContainerPath(uid)
   }
@@ -66,7 +73,8 @@ export class ContentGraph {
       ? this.findActivityById(id)
       : this.findNodeByUid(id)
     if (!node) return null
-    if (node.type !== 'CC') throw new Error('Node must be a container!')
+    if (node.type !== NodeType.CONTENT_CONTAINER)
+      throw new Error('Node must be a container!')
     const [activity, ...subPath] = this.resolveNodeLocation(node.parentId)
     const [rootContainer, ...nestedContainers] = subPath?.length > 0
       ? [...subPath, node]
@@ -93,7 +101,8 @@ export class ContentGraph {
       ? this.findElementById(id)
       : this.findNodeByUid(id)
     if (!node) return null
-    if (node.type !== 'CE') throw new Error('Node must be a content element!')
+    if (node.type !== NodeType.CONTENT_ELEMENT)
+      throw new Error('Node must be a content element!')
     const [activity, container, ...subPath]
       = this.resolveNodeLocation(node.parentId)
     const containerInActivityPathPrefix = this.getContainerInActivityPathPrefix(
@@ -140,7 +149,7 @@ export class ContentGraph {
   ): Array<GraphNode> {
     const node = this.findActivityById(parentActivityId)
     if (!node) throw new Error(`Activity with id ${parentActivityId} not found`)
-    if (node.type === 'A') return [node, ...path]
+    if (node.type === NodeType.ACTIVITY) return [node, ...path]
     return this.resolveNodeLocation(node.parentId, [node, ...path])
   }
 
