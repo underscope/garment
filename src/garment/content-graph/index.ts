@@ -55,7 +55,7 @@ export class ContentGraph {
   }
 
   getNodePath(uid: string) {
-    if (!uid) throw new Error('id is required')
+    if (!uid) throw new Error('uid is required')
     const node = this.findNodeByUid(uid)
     if (!node) return null
     if (
