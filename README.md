@@ -143,3 +143,13 @@ which will return the properties below:
   "contentContainerPath": "containers.1.elements.2"
 }
 ```
+
+#### Storage
+
+To store the ContentGraph data simply call `toJSON()` method and store the
+output. You can use the stored data to instantiate new `ContentGraph`:
+
+```js
+const data = contentGraph.toJSON()
+const newGraph = new ContentGraph(data)
+```
