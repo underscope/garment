@@ -4,6 +4,7 @@ import sizeof from 'object-sizeof'
 import { Type } from 'class-transformer'
 
 import type { FileKey } from '../../interfaces'
+import { type GraphNodeArray, NodeType } from '../../content-graph'
 import { ContentElement } from '../content-element'
 
 export class ContentContainer {
@@ -50,5 +51,26 @@ export class ContentContainer {
 
     if (this.containers)
       await Promise.all(this.containers.map(it => it.makePublic(secondsAvailable)))
+  }
+
+  getSubtreeDescriptors(
+    parentActivityId: number,
+    positionInAggregate: number,
+  ): Array<GraphNodeArray> {
+    const node = [
+      this.id,
+      this.uid,
+      NodeType.CONTENT_CONTAINER,
+      parentActivityId,
+      positionInAggregate,
+    ]
+    const childElements = this.elements?.length
+      ? this.elements.map((it, i) => it.getNodeDescriptor(this.id, i))
+      : []
+    const childContainers = this.containers?.length
+      ? this.containers.reduce(
+        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)), [] as any)
+      : []
+    return [node, ...childElements, ...childContainers]
   }
 }

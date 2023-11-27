@@ -5,5 +5,6 @@ import type {
 } from './interfaces'
 
 export default function initAdapter(config: FileStorageConfig): FileStorage {
+  // @ts-expect-error dynamic
   return new providers[config.provider](config)
 }
