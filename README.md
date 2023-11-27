@@ -104,13 +104,28 @@ which will return the properties below:
 
 ```js
 {
+  // Location within the
+  "outline": [
+    {
+      "id": 5997,
+      "uid": "02b091f6-c920-4d3b-a429-3dd51fcb9b4e",
+      "type": "A",
+      "parentId": null
+    },
+    {
+      "id": 6068,
+      "uid": "0af7eefc-0e45-4e2a-af01-70f6dff1ab72",
+      "type": "A",
+      "parentId": 5997
+    }
+  ],
   // Activity leaf
   // The node in the outline structure the content is attached to
   "activity": {
     "id": 6068,
     "uid": "125b1510-beab-437e-b47e-d79e24dbc94a",
     "type": "A",
-    "parentId": 6061
+    "parentId": 5997
   },
   // Location within the activity leaf
   "activityPath": "contentContainers.0.containers.1.elements.2",

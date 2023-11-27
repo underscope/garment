@@ -88,6 +88,7 @@ export class ContentGraph {
     const activityPath = containerInActivityPathPrefix
       + (containerPath ? `.${containerPath}` : '')
     return {
+      outline: this.getAncestors(rootContainer.uid),
       activity,
       activityPath,
       contentContainer: rootContainer,
@@ -111,6 +112,7 @@ export class ContentGraph {
     const containerPath = this.constructElementPath(subPath, node)
     const activityPath = `${containerInActivityPathPrefix}.${containerPath}`
     return {
+      outline: this.getAncestors(container.uid),
       activity,
       activityPath,
       contentContainer: container,
@@ -156,6 +158,24 @@ export class ContentGraph {
   private formatNode(node: GraphNodeArray): GraphNode {
     const [id, uid, type, parentId, positionInAggregate] = node
     return { id, uid, type, parentId, positionInAggregate }
+  }
+
+  getAncestors(uid: string): Array<GraphNode> {
+    const node = this.findNodeByUid(uid)
+    if (!node) throw new Error(`Node with uid ${uid} not found`)
+    if (!node.parentId) return []
+    return this.getActivityAncestors(node.parentId)
+  }
+
+  private getActivityAncestors(
+    id: number,
+    path: Array<GraphNode> = [],
+  ): Array<GraphNode> {
+    const node = this.findActivityById(id)
+    if (!node) throw new Error(`Node with id ${id} not found`)
+    const lineage = [node, ...path]
+    if (!node.parentId) return lineage
+    return this.getActivityAncestors(node.parentId, lineage)
   }
 
   toJSON(): Array<GraphNodeArray> {
