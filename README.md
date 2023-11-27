@@ -84,6 +84,8 @@ which will return the properties below:
 }
 ```
 
+To get a list of all of the ancestors, use `getAncestors(uid)` method.
+
 Content graph makes it simple to resolve where specific `Content Container` or
 `Content Element` is, so we can retrieve only content items we need (and we
 can more easily navigate within a aggregate structure; e.g. if we want to
