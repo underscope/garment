@@ -106,7 +106,7 @@ which will return the properties below:
 
 ```json
 {
-  // Location within the
+  // Location within the outline
   "outline": [
     {
       "id": 5997,
