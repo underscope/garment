@@ -50,7 +50,7 @@ of:
 
 - `id`
 - `uid`
-- `type` - Activity, Content Container or Content element
+- `type` - Activity, Content Container or Content Element
 - `parentId`
 - `positionInAggregate` - location within the aggregate array; 
   if denormalized object
@@ -74,7 +74,7 @@ contentGraph.findActivityById(805)
 
 which will return the properties below:
 
-```js
+```json
 {
   "id": 7640,
   "uid": "6191eb25-cc47-49d9-ba4c-bdadea915f7f",
@@ -104,7 +104,7 @@ contentGraph.getElementPath(805)
 
 which will return the properties below:
 
-```js
+```json
 {
   // Location within the
   "outline": [
