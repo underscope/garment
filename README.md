@@ -78,7 +78,7 @@ which will return the properties below:
 {
   "id": 7640,
   "uid": "6191eb25-cc47-49d9-ba4c-bdadea915f7f",
-  "type": "CE", // Content Element
+  "type": "CE",
   "parentId": 6089,
   "positionInAggregate": 0
 }
@@ -102,11 +102,19 @@ contentGraph.getContainerPath(986)
 contentGraph.getElementPath(805)
 ```
 
-which will return the properties below:
+which will return the:
+
+- `outline` - Location within the outline
+- `activity` - `Activity` leaf; the node in the outline structure the content is
+  attached to
+- `activityPath` - Location within the `Activity` leaf
+- `contentContainer` - `ContentContainer` activity containing the content
+- `contentContainerPath` - Location within the `ContentContainer`; empty string if
+  that particular `ContentContainer` was searched for (in this example it is a
+  element) within the sub `ContentContainer`
 
 ```json
 {
-  // Location within the outline
   "outline": [
     {
       "id": 5997,
@@ -121,17 +129,13 @@ which will return the properties below:
       "parentId": 5997
     }
   ],
-  // Activity leaf
-  // The node in the outline structure the content is attached to
   "activity": {
     "id": 6068,
     "uid": "125b1510-beab-437e-b47e-d79e24dbc94a",
     "type": "A",
     "parentId": 5997
   },
-  // Location within the activity leaf
   "activityPath": "contentContainers.0.containers.1.elements.2",
-  // Content Container activity containing the content
   "contentContainer": {
     "id": 6071,
     "uid": "e0f6b697-d8f5-438a-bb27-16d37ab336ff",
@@ -139,9 +143,6 @@ which will return the properties below:
     "parentId": 6068,
     "positionInAggregate": 0
   },
-  // Location within the Content Container; empty string if that particular
-  // Content Container was searched for (in this example it is element) within
-  // sub content container
   "contentContainerPath": "containers.1.elements.2"
 }
 ```
