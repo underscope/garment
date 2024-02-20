@@ -45,10 +45,12 @@ export class Activity {
 
   async load(): Promise<Activity> {
     const { contentContainers } = this
-    const fetch = contentContainers.map(it => this.getContainer(it.sourceKey))
-    await Promise
-      .all(fetch)
-      .then((containers) => { this.contentContainers = containers })
+    if (contentContainers?.length) {
+      const fetch = contentContainers.map(it => this.getContainer(it.sourceKey))
+      await Promise
+        .all(fetch)
+        .then((containers) => { this.contentContainers = containers })
+    }
     this.isLoaded = true
     return this
   }
