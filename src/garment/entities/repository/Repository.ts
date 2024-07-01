@@ -59,7 +59,7 @@ export class Repository {
   }
 
   async load(): Promise<Repository> {
-    await Promise.all(this.activitiesWithContainers.map(it => it.load()))
+    await Promise.all(this.structure.map(it => it.load()))
     this.isLoaded = true
     return this
   }
