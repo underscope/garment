@@ -1,5 +1,7 @@
 export interface AWSStorageConfig {
+  endpoint?: string
+  forcePathStyle?: boolean
   keyId: string
-  secretKey: string
   region: string
+  secretKey: string
 }

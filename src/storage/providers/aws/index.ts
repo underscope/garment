@@ -19,6 +19,8 @@ class Amazon implements FileStorage {
     this.#client = new S3({
       accessKeyId: storage.aws.keyId,
       secretAccessKey: storage.aws.secretKey,
+      endpoint: storage.aws.endpoint,
+      s3ForcePathStyle: storage.aws.forcePathStyle,
       region: storage.aws.region,
       signatureVersion: 'v4',
       apiVersion: '2006-03-01',
