@@ -1,9 +1,9 @@
-import bytes from 'bytes'
-import isString from 'lodash/isString.js'
-import sizeof from 'object-sizeof'
-import { Type } from 'class-transformer'
-
 import type { FileKey } from '../../interfaces'
+import bytes from 'bytes'
+import { Type } from 'class-transformer'
+import isString from 'lodash/isString.js'
+
+import sizeof from 'object-sizeof'
 import { type GraphNodeArray, NodeType } from '../../content-graph'
 import { ContentElement } from '../content-element'
 
@@ -69,7 +69,9 @@ export class ContentContainer {
       : []
     const childContainers = this.containers?.length
       ? this.containers.reduce(
-        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)), [] as any)
+        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)),
+        [] as any,
+      )
       : []
     return [node, ...childElements, ...childContainers]
   }

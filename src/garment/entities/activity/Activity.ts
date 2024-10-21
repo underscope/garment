@@ -1,12 +1,12 @@
-import { Exclude, Type, plainToClass } from 'class-transformer'
+import type { FileKey } from '../../interfaces'
 import bytes from 'bytes'
+import { Exclude, plainToClass, Type } from 'class-transformer'
 import omit from 'lodash/omit.js'
+
 import sizeof from 'object-sizeof'
+import { ContentContainer, Repository } from '../'
 
 import { type GraphNodeArray, NodeType } from '../../content-graph'
-import type { FileKey } from '../../interfaces'
-
-import { ContentContainer, Repository } from '../'
 import { GarmentEnv } from '../../enums'
 
 export class Activity {
@@ -20,7 +20,7 @@ export class Activity {
   parentId: number
   type: string
   position: number
-  relationships: Object
+  relationships: object
   meta: { [key: string]: any }
 
   @Type(() => Repository)
@@ -64,7 +64,8 @@ export class Activity {
 
   async getContainer(id: number | string): Promise<ContentContainer> {
     const containerManifest = this.contentContainers.find(it => it.sourceKey === id)
-    if (!containerManifest) throw new Error (`The container '${id}' does not exist!`)
+    if (!containerManifest)
+      throw new Error (`The container '${id}' does not exist!`)
     const repositoryKey = this.repository.env === GarmentEnv.Source
       ? this.repository.sourceKey
       : this.repository.snapshotKey
@@ -72,7 +73,8 @@ export class Activity {
       id,
       repositoryKey,
       this.repository.envPath,
-      containerManifest.fileExtension)
+      containerManifest.fileExtension,
+    )
     return plainToClass(ContentContainer, {
       ...containerManifest,
       ...containerData,
@@ -84,7 +86,9 @@ export class Activity {
     const node = [this.id, this.uid, NodeType.ACTIVITY, this.parentId]
     const children = this.contentContainers?.length
       ? this.contentContainers.reduce(
-        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)), [] as any)
+        (acc, it, i) => acc.concat(it.getSubtreeDescriptors(this.id, i)),
+        [] as any,
+      )
       : []
     return [node, ...children]
   }

@@ -1,12 +1,12 @@
+import type { FileKey } from '../../interfaces'
 import bytes from 'bytes'
+import { plainToClass, Type } from 'class-transformer'
 import flatten from 'lodash/flatten.js'
 import isString from 'lodash/isString.js'
 import sizeof from 'object-sizeof'
-import { Type, plainToClass } from 'class-transformer'
-import { ContentGraph } from '../../content-graph'
 
-import type { FileKey } from '../../interfaces'
 import { Activity, ContentContainer } from '../'
+import { ContentGraph } from '../../content-graph'
 import { GarmentEnv } from '../../enums'
 
 export class Repository {
@@ -65,9 +65,12 @@ export class Repository {
   }
 
   async getContentGraph(): Promise<ContentGraph> {
-    if (!this.isLoaded) await this.load()
+    if (!this.isLoaded)
+      await this.load()
     const nodes = this.structure.reduce(
-      (acc, it) => acc.concat(it.getSubtreeDescriptors()), [] as any[])
+      (acc, it) => acc.concat(it.getSubtreeDescriptors()),
+      [] as any[],
+    )
     return new ContentGraph(nodes)
   }
 
@@ -94,13 +97,16 @@ export class Repository {
 
   async getContainer(id: number | string): Promise<ContentContainer> {
     const container = this.containers.find(it => it.sourceKey === id)
-    if (!container) throw new Error(`Container ${id} does not exist!`)
-    if (container.isLoaded) return container
+    if (!container)
+      throw new Error(`Container ${id} does not exist!`)
+    if (container.isLoaded)
+      return container
     const data = await Repository.api.getContainer(
       id,
       this.sourceKey,
       this.envPath,
-      container.fileExtension)
+      container.fileExtension,
+    )
     return plainToClass(ContentContainer, data)
   }
 }

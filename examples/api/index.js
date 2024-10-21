@@ -3,6 +3,7 @@ const { Garment } = require('../../dist/index.cjs')
 
 const app = express()
 const config = require('./config')
+
 const { log } = console
 
 const garment = new Garment(config.storage)
@@ -13,12 +14,13 @@ app.get('/', async (_, res) => {
 })
 
 app.get('/repository/:id', async ({ params, query }, res) => {
-  const public = !!query.public
+  const signAssets = !!query.public
   const opts = { eager: !!query.eager }
   const repository = query.snapshot
     ? await garment.snapshot().get(params.id, query.snapshot, opts)
     : await garment.source().get(params.id, opts)
-  if (public) await repository.makePublic()
+  if (signAssets)
+    await repository.makePublic()
   res.json({
     size: repository.size,
     location: repository.path,

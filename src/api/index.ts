@@ -1,9 +1,9 @@
-import path from 'path'
-import initStorageAdapter from '../storage'
+import type { GarmentEnv } from '../garment/enums'
+import type { FileKeyType, GarmentConfig } from '../garment/interfaces'
 
 import type { FileStorage, FileStorageConfig } from '../storage/interfaces'
-import type { FileKeyType, GarmentConfig } from '../garment/interfaces'
-import type { GarmentEnv } from '../garment/enums'
+import path from 'node:path'
+import initStorageAdapter from '../storage'
 import initProcessMeta from './process-meta'
 
 const CATALOG_FILENAME = 'index.json'
@@ -17,7 +17,8 @@ class StorageAPI {
 
   constructor(
     storageConfig: FileStorageConfig,
-    garmentConfig: GarmentConfig) {
+    garmentConfig: GarmentConfig,
+  ) {
     this.#storage = initStorageAdapter(storageConfig)
     this.#config = garmentConfig
     this.processMeta = initProcessMeta(this)
@@ -50,7 +51,8 @@ class StorageAPI {
     id: string,
     repositoryId: string,
     location = this.#config.sourcePath,
-    ext = CONTAINER_EXTENSION) {
+    ext = CONTAINER_EXTENSION,
+  ) {
     return this.#storage
       .getJSON(this.getContainerPath(id, repositoryId, location, ext))
   }
@@ -67,7 +69,8 @@ class StorageAPI {
     containerId: string,
     repositoryId: string,
     location = this.#config.sourcePath,
-    ext = CONTAINER_EXTENSION) {
+    ext = CONTAINER_EXTENSION,
+  ) {
     return this.path(location, repositoryId, `${containerId}.${ext}`)
   }
 

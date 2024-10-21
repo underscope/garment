@@ -1,11 +1,11 @@
-import path from 'path'
-
-import mime from 'mime-types'
-import S3 from 'aws-sdk/clients/s3.js'
-
 import type { AWSError } from 'aws-sdk'
-import type { GetObjectResponse } from '../../types'
+
 import type { FileStorage, FileStorageConfig } from '../../interfaces'
+import type { GetObjectResponse } from '../../types'
+
+import path from 'node:path'
+import S3 from 'aws-sdk/clients/s3.js'
+import mime from 'mime-types'
 
 const noop = () => undefined
 const isNotFoundError = (err: AWSError) => ['NoSuchKey', 'NotFound'].includes(err.code)

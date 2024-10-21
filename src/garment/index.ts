@@ -1,11 +1,8 @@
-import { plainToInstance } from 'class-transformer'
-
-import API from '../api'
 import type { FileStorageConfig } from '../storage/interfaces'
-import type { FileKeyType, GarmentConfig } from './interfaces'
-import { instanceProcessor, literalProcessor } from './entities/repository'
-import { GarmentEnv } from './enums'
 
+import type { FileKeyType, GarmentConfig } from './interfaces'
+import { plainToInstance } from 'class-transformer'
+import API from '../api'
 import {
   Activity,
   CatalogEntry,
@@ -13,6 +10,9 @@ import {
   ContentElement,
   Repository,
 } from './entities'
+import { instanceProcessor, literalProcessor } from './entities/repository'
+
+import { GarmentEnv } from './enums'
 
 interface GetOptions { eager?: boolean }
 
@@ -26,7 +26,8 @@ class Garment {
       [GarmentEnv.Source]: 'repository',
       [GarmentEnv.Snapshot]: 'snapshots',
       fileKeyProp: 'id',
-    }) {
+    },
+  ) {
     this.config = garmentConfig
     this.api = new API(storageConfig, garmentConfig)
 

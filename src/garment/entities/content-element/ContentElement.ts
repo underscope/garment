@@ -1,6 +1,6 @@
-import { Transform, Type } from 'class-transformer'
 import bytes from 'bytes'
 import camelCase from 'camelcase'
+import { Transform, Type } from 'class-transformer'
 import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
 
@@ -14,9 +14,9 @@ const isAssessment = (type: string) => ['ASSESSMENT', 'REFLECTION'].includes(typ
 export class ContentElement {
   static api: any
   /**
-  * Custom processors contain server side methods required for the execution of
-  * specific content elements
-  */
+   * Custom processors contain server side methods required for the execution of
+   * specific content elements
+   */
   static customProcessorRegistry: (type: string) => Function
 
   id: number
@@ -55,7 +55,8 @@ export class ContentElement {
   }
 
   async makePublic(interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
-    if (this.customProcessor) await this.customProcessor(this)
+    if (this.customProcessor)
+      await this.customProcessor(this)
     return Promise.all([
       this.processAssets(interval),
       ContentElement.api.processMeta(this.meta, interval),

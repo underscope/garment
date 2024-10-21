@@ -21,10 +21,12 @@ export default function (api: any) {
   // adds token param which enables access for a limited time.
   return function processMeta(
     inputs: MetaInputs,
-    interval = DEFAULT_ACCESS_TOKEN_INTERVAL) {
+    interval = DEFAULT_ACCESS_TOKEN_INTERVAL,
+  ) {
     const meta = Object.entries(inputs)
     return Promise.all(meta.map(async ([_, value]) => {
-      if (!value?.url || !isStorageAsset(value?.url)) return Promise.resolve()
+      if (!value?.url || !isStorageAsset(value?.url))
+        return Promise.resolve()
       value.publicUrl = await getSignedAssetUrl(value.url, interval)
     }))
   }

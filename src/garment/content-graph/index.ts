@@ -38,41 +38,50 @@ export class ContentGraph {
 
   findNodeByUid(uid: string): GraphNode | null {
     const node = this.nodes.find(it => it[1] === uid)
-    if (!node) return null
+    if (!node)
+      return null
     return this.formatNode(node)
   }
 
   findActivityById(id: number): GraphNode | null {
     const node = this.activities.find(it => it[0] === id)
-    if (!node) return null
+    if (!node)
+      return null
     return this.formatNode(node)
   }
 
   findElementById(id: number): GraphNode | null {
     const node = this.elements.find(it => it[0] === id)
-    if (!node) return null
+    if (!node)
+      return null
     return this.formatNode(node)
   }
 
   getNodePath(uid: string) {
-    if (!uid) throw new Error('uid is required')
+    if (!uid)
+      throw new Error('uid is required')
     const node = this.findNodeByUid(uid)
-    if (!node) return null
+    if (!node)
+      return null
     if (
       node.type !== NodeType.CONTENT_CONTAINER
       && node.type !== NodeType.CONTENT_ELEMENT
-    ) throw new Error('Node must be a content element or a container!')
+    ) {
+      throw new Error('Node must be a content element or a container!')
+    }
     return node.type === NodeType.CONTENT_ELEMENT
       ? this.getElementPath(uid)
       : this.getContainerPath(uid)
   }
 
   getContainerPath(id: number | string) {
-    if (!id) throw new Error('id is required')
+    if (!id)
+      throw new Error('id is required')
     const node = typeof id === 'number'
       ? this.findActivityById(id)
       : this.findNodeByUid(id)
-    if (!node) return null
+    if (!node)
+      return null
     if (node.type !== NodeType.CONTENT_CONTAINER)
       throw new Error('Node must be a container!')
     const [activity, ...subPath] = this.resolveNodeLocation(node.parentId)
@@ -97,11 +106,13 @@ export class ContentGraph {
   }
 
   getElementPath(id: number | string) {
-    if (!id) throw new Error('id is required')
+    if (!id)
+      throw new Error('id is required')
     const node = typeof id === 'number'
       ? this.findElementById(id)
       : this.findNodeByUid(id)
-    if (!node) return null
+    if (!node)
+      return null
     if (node.type !== NodeType.CONTENT_ELEMENT)
       throw new Error('Node must be a content element!')
     const [activity, container, ...subPath]
@@ -129,7 +140,8 @@ export class ContentGraph {
     subPath: Array<GraphNode> = [],
   ): string {
     return subPath.reduce((acc, it) => {
-      if (acc !== '') acc += '.'
+      if (acc !== '')
+        acc += '.'
       return `${acc}containers.${it.positionInAggregate}`
     }, '')
   }
@@ -150,8 +162,10 @@ export class ContentGraph {
     path: Array<GraphNode> = [],
   ): Array<GraphNode> {
     const node = this.findActivityById(parentActivityId)
-    if (!node) throw new Error(`Activity with id ${parentActivityId} not found`)
-    if (node.type === NodeType.ACTIVITY) return [node, ...path]
+    if (!node)
+      throw new Error(`Activity with id ${parentActivityId} not found`)
+    if (node.type === NodeType.ACTIVITY)
+      return [node, ...path]
     return this.resolveNodeLocation(node.parentId, [node, ...path])
   }
 
@@ -162,8 +176,10 @@ export class ContentGraph {
 
   getAncestors(uid: string): Array<GraphNode> {
     const node = this.findNodeByUid(uid)
-    if (!node) throw new Error(`Node with uid ${uid} not found`)
-    if (!node.parentId) return []
+    if (!node)
+      throw new Error(`Node with uid ${uid} not found`)
+    if (!node.parentId)
+      return []
     return this.getActivityAncestors(node.parentId)
   }
 
@@ -172,9 +188,11 @@ export class ContentGraph {
     path: Array<GraphNode> = [],
   ): Array<GraphNode> {
     const node = this.findActivityById(id)
-    if (!node) throw new Error(`Node with id ${id} not found`)
+    if (!node)
+      throw new Error(`Node with id ${id} not found`)
     const lineage = [node, ...path]
-    if (!node.parentId) return lineage
+    if (!node.parentId)
+      return lineage
     return this.getActivityAncestors(node.parentId, lineage)
   }
 

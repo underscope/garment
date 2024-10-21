@@ -3,7 +3,7 @@ import literalProcessor from './literal-processor'
 import { Repository } from './Repository'
 
 export {
-  Repository,
   instanceProcessor,
   literalProcessor,
+  Repository,
 }
