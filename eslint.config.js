@@ -9,5 +9,8 @@ export default antfu({
     'node/prefer-global/process': 'off',
     'ts/no-unsafe-function-type': 'off',
     'node/prefer-global/buffer': 'off',
+    'antfu/no-top-level-await': 'off',
+    'no-console': 'off',
+    'antfu/no-import-dist': 'off',
   },
 })
