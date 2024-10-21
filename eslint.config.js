@@ -3,7 +3,7 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   type: 'lib',
-  ignores: ['examples/content/**'],
+  ignores: ['seed/content/**'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'node/prefer-global/process': 'off',

@@ -1,8 +1,9 @@
-const express = require('express')
-const { Garment } = require('../../dist/index.cjs')
+import express from 'express'
+
+import { Garment } from '../../lib/dist/index.mjs'
+import config from './config.js'
 
 const app = express()
-const config = require('./config')
 
 const { log } = console
 
