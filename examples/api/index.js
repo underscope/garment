@@ -1,7 +1,7 @@
 import express from 'express'
 import { Garment } from '@tailor-cms/garment'
 
-import config from './config.js'
+import config from '../../config.js'
 
 const app = express()
 

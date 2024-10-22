@@ -4,30 +4,21 @@ import { fileURLToPath } from 'node:url'
 import S3 from 'aws-sdk/clients/s3.js'
 import mime from 'mime-types'
 
-import storageCredentials from '../config.js'
+import awsConfig from '../aws-config.js'
 
 const { readdir, stat: getStats } = promises
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const s3 = new S3({
-  signatureVersion: 'v4',
-  apiVersion: '2006-03-01',
-  accessKeyId: storageCredentials.accessKeyId,
-  secretAccessKey: storageCredentials.secretAccessKey,
-  region: storageCredentials.region,
-  endpoint: storageCredentials.endpoint,
-  s3ForcePathStyle: storageCredentials.forcePathStyle,
-  maxRetries: 3,
-})
+const s3 = new S3(awsConfig);
 
 async function createTestBucket() {
   try {
     // If already exists, return
-    await s3.headBucket({ Bucket: storageCredentials.bucket }).promise()
+    await s3.headBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
   catch (error) {
-    await s3.createBucket({ Bucket: storageCredentials.bucket }).promise()
+    await s3.createBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
 }
@@ -105,7 +96,7 @@ try {
   await createTestBucket();
   await uploadDirectory({
     path: targetFolder,
-    params: { Bucket: storageCredentials.bucket },
+    params: { Bucket: awsConfig.bucket },
     options: {},
     rootKey: '',
   })
