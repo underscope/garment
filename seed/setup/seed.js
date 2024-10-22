@@ -20,6 +20,18 @@ const s3 = new S3({
   maxRetries: 3,
 })
 
+async function createTestBucket() {
+  try {
+    // If already exists, return
+    await s3.headBucket({ Bucket: storageCredentials.bucket }).promise()
+    return true
+  }
+  catch (error) {
+    await s3.createBucket({ Bucket: storageCredentials.bucket }).promise()
+    return true
+  }
+}
+
 const uploadFile = async function uploadFile({ path, params, options } = {}) {
   const args = { ...params }
   try {
@@ -90,6 +102,7 @@ const uploadDirectory = async function uploadDirectory({
 try {
   console.time('Upload files to S3')
   const targetFolder = join(__dirname, '../content')
+  await createTestBucket();
   await uploadDirectory({
     path: targetFolder,
     params: { Bucket: storageCredentials.bucket },
