@@ -17,10 +17,9 @@ async function doesBucketExist() {
 }
 
 async function listAllFiles() {
-  if (!await doesBucketExist()) {
-    await s3.createBucket({ Bucket: awsConfig.bucket }).promise()
-    return
-  }
+  if (!await doesBucketExist())
+    return []
+
   return s3
     .listObjectsV2({
       Bucket: awsConfig.bucket,

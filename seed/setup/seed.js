@@ -17,7 +17,7 @@ async function createTestBucket() {
     await s3.headBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
-  catch () {
+  catch {
     await s3.createBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
