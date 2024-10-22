@@ -1,5 +1,5 @@
-import express from 'express'
 import { Garment } from '@tailor-cms/garment'
+import express from 'express'
 
 import config from '../../config.js'
 

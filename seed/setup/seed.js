@@ -9,7 +9,7 @@ import awsConfig from '../aws-config.js'
 const { readdir, stat: getStats } = promises
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const s3 = new S3(awsConfig);
+const s3 = new S3(awsConfig)
 
 async function createTestBucket() {
   try {
@@ -17,7 +17,7 @@ async function createTestBucket() {
     await s3.headBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
-  catch (error) {
+  catch () {
     await s3.createBucket({ Bucket: awsConfig.bucket }).promise()
     return true
   }
@@ -93,7 +93,7 @@ const uploadDirectory = async function uploadDirectory({
 try {
   console.time('Upload files to S3')
   const targetFolder = join(__dirname, '../content')
-  await createTestBucket();
+  await createTestBucket()
   await uploadDirectory({
     path: targetFolder,
     params: { Bucket: awsConfig.bucket },

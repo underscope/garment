@@ -1,4 +1,4 @@
-import { storage } from '../config.js';
+import { storage } from '../config.js'
 
 export default {
   endpoint: storage.aws.endpoint,

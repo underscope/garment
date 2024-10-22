@@ -2,7 +2,7 @@ import S3 from 'aws-sdk/clients/s3.js'
 
 import awsConfig from '../aws-config.js'
 
-const s3 = new S3(awsConfig);
+const s3 = new S3(awsConfig)
 
 async function doesBucketExist() {
   try {
