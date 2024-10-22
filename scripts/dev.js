@@ -7,6 +7,7 @@ import fkill from 'fkill'
 import { portToPid } from 'pid-port'
 
 const log = msg => console.log(`\n${msg}\n`)
+const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const configLocation = path.join(process.cwd(), '.env')
 const config = await fs.readFile(configLocation, 'utf-8')
@@ -22,11 +23,14 @@ for (const port of [env.EXAMPLE_API_PORT]) {
   catch {}
 }
 
-log('🐳 Seed the localstack S3...')
-await execaCommand('pnpm seed')
+log('🖥️ Initializing localstack...')
+await timeout(3000);
 
 log('🔧 Build Garment...')
 await execaCommand('pnpm build')
+
+log('🐳 Seed the localstack S3...')
+await execaCommand('pnpm seed')
 
 const libCommand = {
   name: 'lib',
