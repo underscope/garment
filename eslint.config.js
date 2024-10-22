@@ -6,11 +6,11 @@ export default antfu({
   ignores: ['seed/content/**'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'node/prefer-global/process': 'off',
-    'ts/no-unsafe-function-type': 'off',
-    'node/prefer-global/buffer': 'off',
+    'antfu/no-import-dist': 'off',
     'antfu/no-top-level-await': 'off',
     'no-console': 'off',
-    'antfu/no-import-dist': 'off',
+    'node/prefer-global/buffer': 'off',
+    'node/prefer-global/process': 'off',
+    'ts/no-unsafe-function-type': 'off',
   },
 })
