@@ -8,8 +8,6 @@ Utility for managing published Tailor content. Provides ability to:
 - ✅ sign ContentElement assets for delivery
 - 🚧 cache presigned Repository instance
 
-  
-  
 Initialize garment by providing storage provider configuration.
 
 ```js
@@ -29,7 +27,7 @@ const garment = new Garment({
 ### Fetching resources
 
 Retrieve the list of published repositories
-```js 
+```js
 garment.source().list()
 ```
 
@@ -52,7 +50,7 @@ of:
 - `uid`
 - `type` - Activity, Content Container or Content Element
 - `parentId`
-- `positionInAggregate` - location within the aggregate array; 
+- `positionInAggregate` - location within the aggregate array;
   if denormalized object
 
 ```js
@@ -89,8 +87,8 @@ To get a list of all of the ancestors, use `getAncestors(uid)` method.
 Content graph makes it simple to resolve where specific `Content Container` or
 `Content Element` is, so we can retrieve only content items we need (and we
 can more easily navigate within a aggregate structure; e.g. if we want to
-get a specific `Content Element` which might be located in a 
-`Content Container`). To resolve `Content Container` or a `Content Element` 
+get a specific `Content Element` which might be located in a
+`Content Container`). To resolve `Content Container` or a `Content Element`
 location, use:
 
 ```js
