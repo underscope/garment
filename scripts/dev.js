@@ -6,15 +6,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { portToPid } from 'pid-port';
 
+const log = (msg) => console.log(`\n${msg}\n`);
+
 const configLocation = path.join(process.cwd(), '.env');
 const config = await fs.readFile(configLocation, 'utf-8');
 const env = dotenv.parse(config);
 
-const { EXAMPLE_API_PORT } = env;
-const log = (msg) => console.log(`\n${msg}\n`);
-
 // Kill running services occupying req ports
-for (const port of [EXAMPLE_API_PORT]) {
+for (const port of [env.EXAMPLE_API_PORT]) {
   try {
     const pid = await portToPid(port);
     if (pid) await fkill(pid, { force: true });
@@ -41,6 +40,7 @@ const testApiCommand = {
 log('🚀 Boot watcher and test API');
 const appCommands = [libCommand, testApiCommand];
 
+dotenv.config({ path: configLocation });
 const { result } = concurrently(appCommands, {
   killOthers: true,
   killSignal: 'SIGKILL',
