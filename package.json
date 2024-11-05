@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "build": "cd ./lib && pnpm build",
-    "dev": "docker compose -f docker-compose.dev.yaml up & node ./scripts/dev.js",
+    "dev": "node ./scripts/dev.js",
+    "dc": "docker compose -f docker-compose.dev.yaml up & pnpm dev",
     "seed": "node ./seed/setup/seed.js",
     "clean": "node ./seed/setup/clean.js"
   },
