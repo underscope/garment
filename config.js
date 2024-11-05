@@ -8,7 +8,7 @@ const app = {
 
 export const storage = {
   provider: 'aws',
-  bucket: process.env.S3_BUCKET || 'test-bucket',
+  bucket: process.env.S3_BUCKET || 'test',
   aws: {
     endpoint: process.env.S3_ENDPOINT || 'http://localhost:4566',
     region: process.env.S3_REGION || 'us-east-1',

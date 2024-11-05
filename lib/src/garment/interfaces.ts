@@ -6,6 +6,7 @@ export type FileKeyType = number | string
 export interface GarmentConfig {
   [GarmentEnv.Source]: string
   [GarmentEnv.Snapshot]: string
+  [GarmentEnv.Preview]: string
   fileKeyProp: FileKey
 }
 

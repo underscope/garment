@@ -25,6 +25,7 @@ class Garment {
     garmentConfig: GarmentConfig = {
       [GarmentEnv.Source]: 'repository',
       [GarmentEnv.Snapshot]: 'snapshots',
+      [GarmentEnv.Preview]: 'preview',
       fileKeyProp: 'id',
     },
   ) {
@@ -52,6 +53,15 @@ class Garment {
       this.getContainer(id, repositoryId, GarmentEnv.Source),
   })
 
+  preview = () => ({
+    list: () => this.list(GarmentEnv.Preview),
+    get: (id: FileKeyType, options: GetOptions = {}) => {
+      return this.get(id, GarmentEnv.Preview, options.eager)
+    },
+    getContainer: (id: string, repositoryId: string) =>
+      this.getContainer(id, repositoryId, GarmentEnv.Preview),
+  })
+
   snapshot = () => ({
     get: (id: FileKeyType, version: string, options: GetOptions = {}) => {
       const snapshotKey = Repository.getSnapshotKey(id, version)
@@ -70,8 +80,9 @@ class Garment {
     return instanceProcessor(instance)
   }
 
-  private list(): Promise<CatalogEntry[]> {
-    return this.api.list()
+  private list(env = GarmentEnv.Source): Promise<CatalogEntry[]> {
+    const catalogPath = this.config[env]
+    return this.api.list(catalogPath)
       .then(items => plainToInstance(CatalogEntry, items))
   }
 
