@@ -24,8 +24,8 @@ class StorageAPI {
     this.processMeta = initProcessMeta(this)
   }
 
-  list(): Promise<[any]> {
-    return this.#storage.getJSON(this.getCatalogPath())
+  list(path = this.#config.sourcePath): Promise<[any]> {
+    return this.#storage.getJSON(this.getCatalogPath(path))
   }
 
   get(id: FileKeyType, location = this.#config.sourcePath): Promise<any> {
@@ -57,8 +57,8 @@ class StorageAPI {
       .getJSON(this.getContainerPath(id, repositoryId, location, ext))
   }
 
-  private getCatalogPath() {
-    return this.path(this.#config.sourcePath, CATALOG_FILENAME)
+  private getCatalogPath(path = this.#config.sourcePath) {
+    return this.path(path, CATALOG_FILENAME)
   }
 
   private getRepositoryPath(id: FileKeyType, location = this.#config.sourcePath) {

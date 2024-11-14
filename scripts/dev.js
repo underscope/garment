@@ -23,14 +23,16 @@ for (const port of [env.EXAMPLE_API_PORT]) {
   catch {}
 }
 
-log('🖥️ Initializing localstack...')
+// Wait for the localstack to boot
 await timeout(3000)
 
 log('🔧 Build Garment...')
 await execaCommand('pnpm build')
 
-log('🐳 Seed the localstack S3...')
-await execaCommand('pnpm seed')
+if (env.RESET_EXAMPLE_BUCKET) {
+  log('🐳 Reset the S3 bucket...')
+  await execaCommand('pnpm seed')
+}
 
 const libCommand = {
   name: 'lib',
