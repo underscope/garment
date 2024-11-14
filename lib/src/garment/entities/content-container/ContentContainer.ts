@@ -19,6 +19,7 @@ export class ContentContainer {
   type: string
   position: number
   publishedAs: string
+  data: { [key: string]: any }
 
   @Type(() => ContentElement)
   elements: ContentElement[]
