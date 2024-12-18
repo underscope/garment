@@ -43,12 +43,12 @@
   "dependencies": {
     "aws-sdk": "^2.1691.0",
     "bytes": "^3.1.2",
-    "camelcase": "^8.0.0",
     "class-transformer": "^0.5.1",
     "mime-types": "^2.1.35",
     "object-sizeof": "^2.6.5",
     "reflect-metadata": "^0.2.2",
-    "set-value": "^4.1.0"
+    "set-value": "^4.1.0",
+    "to-camel-case": "^1.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.8.0",
