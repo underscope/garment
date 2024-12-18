@@ -1,11 +1,10 @@
 import type { FileKey } from '../../interfaces'
 import bytes from 'bytes'
 import { plainToClass, Type } from 'class-transformer'
-import flatten from 'lodash/flatten.js'
-import isString from 'lodash/isString.js'
 import sizeof from 'object-sizeof'
 
 import { Activity, ContentContainer } from '../'
+import { isString } from '../../../utils'
 import { ContentGraph } from '../../content-graph'
 import { GarmentEnv } from '../../enums'
 
@@ -55,7 +54,7 @@ export class Repository {
 
   get containers(): ContentContainer[] {
     const { activitiesWithContainers: activities } = this
-    return flatten(activities.map(it => it.contentContainers))
+    return activities.map(it => it.contentContainers).flat()
   }
 
   async load(): Promise<Repository> {
