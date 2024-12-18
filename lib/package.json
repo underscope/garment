@@ -1,7 +1,7 @@
 {
   "name": "@tailor-cms/garment",
   "type": "module",
-  "version": "0.18.1-beta.1",
+  "version": "0.18.1-beta.2",
   "packageManager": "pnpm@9.12.2",
   "author": "Damir P. <underscope@gmail.com>",
   "license": "MIT",
