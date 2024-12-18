@@ -1,9 +1,9 @@
 import type { FileKey } from '../../interfaces'
 import bytes from 'bytes'
 import { Type } from 'class-transformer'
-import isString from 'lodash/isString.js'
 
 import sizeof from 'object-sizeof'
+import { isString } from '../../../utils'
 import { type GraphNodeArray, NodeType } from '../../content-graph'
 import { ContentElement } from '../content-element'
 

@@ -1,7 +1,6 @@
 import type { FileKey } from '../../interfaces'
 import bytes from 'bytes'
 import { Exclude, plainToClass, Type } from 'class-transformer'
-import omit from 'lodash/omit.js'
 
 import sizeof from 'object-sizeof'
 import { ContentContainer, Repository } from '../'
@@ -94,6 +93,7 @@ export class Activity {
   }
 
   toJSON() {
-    return omit(this, ['repository'])
+    const { repository, ...rest } = this
+    return rest
   }
 }

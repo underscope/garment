@@ -1,9 +1,9 @@
 import bytes from 'bytes'
 import camelCase from 'camelcase'
 import { Transform, Type } from 'class-transformer'
-import set from 'lodash/set.js'
 import sizeof from 'object-sizeof'
 
+import set from 'set-value'
 import { type GraphNodeArray, NodeType } from '../../content-graph'
 
 // seconds, 12 hrs
